@@ -11,6 +11,8 @@ var sys = require("sys"),
     Database = require("./Database.js");
     mime = require('mime');
     connect = require('connect');
+    static = require('node-static');
+    util = require('util');
     //db = new Database();
 /*
 
@@ -31,54 +33,54 @@ event/calendar
 event/messages
 
 */
-
+/*
 var app = connect()
   .use(connect.logger('dev'))
   .use(connect.static('public'))
   .use(connect.static(__dirname))
+  .createServer(
 
+
+
+);
 http.createServer(app).listen(8081);
+*/
+var webroot = '../',
+  port = 8080;
 
-/*http.createServer(function(request, response) {
-    var uri = url.parse(request.url).pathname;
-    console.log(request.method);
-    if(request.method == "GET"){
+
+var file = new(static.Server)(webroot, { 
+  cache: 600, 
+  headers: { 'X-Powered-By': 'node-static' } 
+});
+
+http.createServer(function(req, res) {
+    var uri = url.parse(req.url).pathname;
+    console.log(req.method);
+    if(req.method == "GET"){
         var filename = path.join(process.cwd(), uri);
-        fs.exists(filename, function(exists) {
-            console.log(filename);
-            if(!exists) {
-                console.log(err);
-                return processPost(request,response);
-
-                response.setHeader("404", {"Content-Type": "text/plain"});
-                response.write("404 Not Found\n");
-                response.end();
-                return;
-            }
-             
-            fs.readFile(filename, "binary", function(err, file) {
-                if(err) {
-                    console.log(err);
-                    response.setHeader("500", {"Content-Type": "text/plain"});
-                    response.write(err + "\n");
-                    response.end();
-                    return;
-                }
-                console.log("MIMETYPE: " + mime.lookup(filename));
-                response.setHeader("200", {"Content-Type": mime.lookup(filename)});
-                response.write(file,"binary");
-                response.end();
-            });
-        });
+    file.serve(req, res, function(err, result) {
+      if (err) {
+        console.error('Error serving %s - %s', req.url, err.message);
+        if (err.status === 404 || err.status === 500) {
+          file.serveFile(util.format('/%d.html', err.status), err.status, {}, req, res);
+        } else {
+          res.writeHead(err.status, err.headers);
+          res.end();
+        }
+      } else {
+        console.log('%s - %s', req.url, res.message); 
+      }
+    });
     }
-    else if(request.method == "POST"){
+    else if(req.method == "POST"){
 
-        return processPost(request,response);
+        return processPost(req,res);
            
     }
-}).listen(8080);*/
+}).listen(8080);
 
-//https://gist.github.com/rpflorence/701407
+//http://www.sitepoint.com/serving-static-files-with-node-js/
 
 processPost = function(request,response){
     console.log('process');
