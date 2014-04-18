@@ -4,6 +4,23 @@
   ViewBag.Title = "Customer Profile";
 }
 
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Shift Link", "Show", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Home", "Show", "Home", new { area = "" }, null)</li>
+            </ul>
+        </div>
+    </div>
+</div>
 <h1>Welcome!</h1>
 
 <ul class="nav nav-tabs">
@@ -21,14 +38,8 @@
   </li>
   <li>
     <a href="#task-tab" data-toggle="tab">
-      <i class="fa fa-check-square-0"></i>
-      &nbsp;&nbsp;Task
-    </a>
-  </li>
-  <li>
-    <a href="#important-tab" data-toggle="tab">
-      <i class="fa fa-exclamation-circle"></i>
-      &nbsp;&nbsp;Important
+      <i class="fa fa-check-square-o"></i>
+      &nbsp;&nbsp;Tasks
     </a>
   </li>
 </ul>
@@ -49,11 +60,9 @@
     <hr><br>
   </div>
 
-  <div class="tab-pane fade" id="important-tab">
-    <h3>Important</h3>
-    <hr><br>
-  </div>
-
 </div>
 
+<footer class="text-center">&copy; @DateTime.Now.Year - Shift Link, Inc.</footer>
+
 <script src="Show.js"></script>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
