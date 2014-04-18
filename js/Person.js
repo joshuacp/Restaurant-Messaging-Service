@@ -1,6 +1,14 @@
 
 
-function Person() {}
+function Person(name,id,password,type) {
+
+	    
+    this.name = name;
+    this.id = id;
+    this.password = password;
+    this.type = type
+	
+}
 
 Person.prototype.setPassword = function(password){
 	this.password = password;
