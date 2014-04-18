@@ -13,7 +13,9 @@ var sys = require("sys"),
     connect = require('connect');
     static = require('node-static');
     util = require('util');
+    qs = require('querystring');
     //db = new Database();
+
 /*
 
 POST URLS:
@@ -45,7 +47,7 @@ var app = connect()
 );
 http.createServer(app).listen(8081);
 */
-var webroot = '../',
+var webroot = '../web/',
   port = 8080;
 
 
@@ -85,13 +87,29 @@ http.createServer(function(req, res) {
 processPost = function(request,response){
     console.log('process');
     
-    var body = request.body;
+    var body = '';
+    request.on('data', function (data) {
+        body += data;
+        console.log(body);
+    });
+    request.on('end', function () {
+
+        var POST = qs.parse(body);
+        body = POST;
+        console.log(body);
+        // use POST
+
+    });
+
     var url = request.url;
-    //console.log(request);
-    console.log(body);
+    url.parse
     console.log(url);
     //interpret cookies
     //decode the URI
+
+
+
+    
 
     /*
     //if()
