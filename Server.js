@@ -6,10 +6,10 @@ var sys = require("sys"),
     mongoose = require("mongoose");
     mongoose.connect('mongodb://localhost/test');
     resID = 0;
-    Restaurant = require("./Restaurant.js");
-    Database = require("./Database.js");
-    Person = require("./Person.js");
-    CalendarEvent = require("./CalendarEvent.js");
+    Restaurant = require("./DB/Restaurant.js");
+    Database = require("./DB/Database.js");
+    Person = require("./DB/Person.js");
+    CalendarEvent = require("./DB/CalendarEvent.js");
     mime = require('mime');
     connect = require('connect');
     static = require('node-static');
@@ -20,16 +20,18 @@ var sys = require("sys"),
     //db = new Database();
 
 
-var file = new(static.Server)('../web/', { 
+var file = new(static.Server)('./web/', { 
   cache: 600, 
   headers: { 'X-Powered-By': 'node-static' } 
 });
 
 http.createServer(function(req, res) {
     var uri = url.parse(req.url).pathname;
+    console.log(uri);
     console.log(req.method);
     if(req.method == "GET"){
         var filename = path.join(process.cwd(), uri);
+        console.log(filename);
     file.serve(req, res, function(err, result) {
       if (err) {
         console.error('Error serving %s - %s', req.url, err.message);
