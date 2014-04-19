@@ -4,9 +4,6 @@ var sys = require("sys"),
     path = require("path"),
     fs = require("fs");
     resID = 0;
-    Restaurant = require("./Restaurant.js");
-    Employee = require("./Employee.js");
-    Database = require("./Database.js");
     mime = require('mime');
     connect = require('connect');
     static = require('node-static');
@@ -14,37 +11,6 @@ var sys = require("sys"),
     qs = require('querystring');
     //db = new Database();
 
-/*
-
-POST URLS:
-create/manager
-create/restaurant
-create/employee
-
-delete/restaurant
-delete/person
-
-join/restaurant
-
-GET URLS:
-index.html
-
-event/calendar
-event/messages
-
-*/
-/*
-var app = connect()
-  .use(connect.logger('dev'))
-  .use(connect.static('public'))
-  .use(connect.static(__dirname))
-  .createServer(
-
-
-
-);
-http.createServer(app).listen(8081);
-*/
 var webroot = './web/',
   port = 44444;
 
