@@ -1,0 +1,15 @@
+POST URLS:
+create/manager
+create/restaurant
+create/employee
+
+delete/restaurant
+delete/person
+
+join/restaurant
+
+GET URLS:
+index.html
+
+event/calendar
+event/messages

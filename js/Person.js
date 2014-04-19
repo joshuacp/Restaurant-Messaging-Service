@@ -1,14 +1,17 @@
 
+var loadJSON = require("./loadJSON.js");
 
 function Person(name,id,password,type) {
 
-	    
+	
     this.name = name;
     this.id = id;
     this.password = password;
     this.type = type
-	
+
 }
+
+Person.prototype = loadJSON.prototype;
 
 Person.prototype.setPassword = function(password){
 	this.password = password;
@@ -31,15 +34,15 @@ Person.prototype.getType = function(){
 };
 
 Person.prototype.getID = function() {
-	return id;
+	return this.id;
 };
 
 Person.prototype.getName = function() {
-	return name;
+	return this.name;
 };
 
 Person.prototype.getPassword = function() {
-	return password;
+	return this.password;
 };
 
 Person.prototype.toString = function(){

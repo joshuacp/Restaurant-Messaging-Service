@@ -7,51 +7,20 @@ var sys = require("sys"),
     mongoose.connect('mongodb://localhost/test');
     resID = 0;
     Restaurant = require("./Restaurant.js");
-    Employee = require("./Employee.js");
     Database = require("./Database.js");
+    Person = require("./Person.js");
+    CalendarEvent = require("./CalendarEvent.js");
     mime = require('mime');
     connect = require('connect');
     static = require('node-static');
     util = require('util');
     qs = require('querystring');
+    $ = require('jquery')
+    jsdom = require('jsdom');
     //db = new Database();
 
-/*
 
-POST URLS:
-create/manager
-create/restaurant
-create/employee
-
-delete/restaurant
-delete/person
-
-join/restaurant
-
-GET URLS:
-index.html
-
-event/calendar
-event/messages
-
-*/
-/*
-var app = connect()
-  .use(connect.logger('dev'))
-  .use(connect.static('public'))
-  .use(connect.static(__dirname))
-  .createServer(
-
-
-
-);
-http.createServer(app).listen(8081);
-*/
-var webroot = '../web/',
-  port = 44444;
-
-
-var file = new(static.Server)(webroot, { 
+var file = new(static.Server)('../web/', { 
   cache: 600, 
   headers: { 'X-Powered-By': 'node-static' } 
 });
@@ -84,52 +53,65 @@ http.createServer(function(req, res) {
 
 //http://www.sitepoint.com/serving-static-files-with-node-js/
 
+function P(name,id,password,type) {
+
+
+    this.name = name;
+
+}
+
+P.prototype.getName = function() {
+    return this.name;
+};
+
+
 processPost = function(request,response){
     console.log('process');
-    
+   
     var body = '';
     request.on('data', function (data) {
         body += data;
-        console.log(body);
+        //console.log(body);
     });
     request.on('end', function () {
 
-        var POST = qs.parse(body);
-        body = POST;
+        var POST = JSON.parse(body);
+        var p = new CalendarEvent();
+        p.loadFromJSON(POST);
+
+        
+        console.log("NAME: " + p.getName());
+        var url = request.url;
+        url.parse
+        console.log(url);
+
         console.log(body);
-        // use POST
+
+        //interpret cookies
+        //decode the URI
+
+        
+        //if()
+        name = "";
+        id = resID;
+        password = "";
+
+        //var r = new Restaurant(name,id,password);
+        //var e = new Employee(name,id,password,"d");
+        
+        var db = new Database();
+        console.log(db);
+        db.deleteRestaurant("name");
+        
+        //console.log(e.getType());
+        response.setHeader("200", {"Content-Type": "text/plain"});
+        response.write("Post is not implemented yet.");
+        response.end();
+        return;
+       
+
 
     });
-
-    var url = request.url;
-    url.parse
-    console.log(url);
-    //interpret cookies
-    //decode the URI
-
-
-
-    
-
-    /*
-    //if()
-    name = "";
-    id = resID;
-    password = "";
-
-    var r = new Restaurant(name,id,password);
-    var e = new Employee(name,id,password,"d");
-    
-    var db = new Database();
-    console.log(db);
-    db.deleteRestaurant("name");
-    */
-    //console.log(e.getType());
-    response.setHeader("200", {"Content-Type": "text/plain"});
-    response.write("Post is not implemented yet.");
-    response.end();
-    return;
-
 }
  
-sys.puts("Server running at http://localhost:8080/");
+sys.puts("Server running at http://localhost:44444/");

@@ -1,6 +1,4 @@
 
-var loadJSON = require("./loadJSON.js");
-
 function CalendarEvent(name,id,message,type,date) {
     
     this.name = name;
@@ -10,8 +8,6 @@ function CalendarEvent(name,id,message,type,date) {
     this.date = date
 
 }
-
-CalendarEvent.prototype = loadJSON.prototype;
 
 CalendarEvent.prototype.setMessage = function(password){
 	this.message = message;
@@ -56,6 +52,3 @@ CalendarEvent.prototype.getMessage = function() {
 CalendarEvent.prototype.toString = function(){
 	return this.name + " " + this.id + " " + this.message;
 };
-
-
-module.exports = CalendarEvent;

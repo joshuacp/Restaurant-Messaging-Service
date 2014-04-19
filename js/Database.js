@@ -22,7 +22,7 @@ Database.prototype.addRestaurant = function(name){
 		  
 		  var t = db.collection('test');
 
-		  t.insert({"name":"Mongo"},function(err,records){
+		  t.insert({"name":name},function(err,records){
 		    if(err) throw err;
 		    console.log("record added " + records[0]._id);
 		  });
@@ -33,7 +33,7 @@ Database.prototype.addRestaurant = function(name){
 	
 }
 
-Database.prototype.deleteRestaurant = function(name,password){
+Database.prototype.deleteDocument = function(name,password){
 
 	dbClass.name = name;
 
@@ -43,10 +43,6 @@ Database.prototype.deleteRestaurant = function(name,password){
 	});
 
 	console.log("far");
-}
-
-Database.prototype.joinRestaurant = function(name,password,person){
-	
 }
 
 Database.prototype.leaveRestaurant = function(name,person){
