@@ -82,37 +82,38 @@ processPost = function(request,response){
         p.loadFromJSON(POST);
 
         
-        console.log("NAME: " + p.getName());
+        //console.log("NAME: " + p.getName());
         var url = request.url;
-        url.parse
         console.log(url);
 
-        console.log(body);
+        //console.log(body);
 
         //interpret cookies
         //decode the URI
 
-        
-        //if()
-        name = "";
-        id = resID;
-        password = "";
-
-        //var r = new Restaurant(name,id,password);
-        //var e = new Employee(name,id,password,"d");
-        
         var db = new Database();
-        console.log(db);
-        db.deleteRestaurant("name");
-        
-        //console.log(e.getType());
-        response.setHeader("200", {"Content-Type": "text/plain"});
-        response.write("Post is not implemented yet.");
-        response.end();
-        return;
-       
+        if(url == "/user/create")
+            db.addUser(p);
+        if(url == "/user/login"){
+            var stat = false;
+            db.validateUser(p,function(response,returnValue){
+                console.log('returned to Server');
+                console.log(returnValue);
+                if(returnValue){
 
+                    response.header("Set-cookie", "user=" + p.getName() +";Path=/;");
+                    response.setHeader("200", {"Content-Type": "text/plain"});
+                    response.write("Post is not implemented yet.");
+                    response.end();
+                    return;
 
+                }
+                else{
+                    console.log("BAD");
+                }
+
+            });
+        }
     });
 }
  

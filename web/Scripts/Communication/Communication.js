@@ -5,7 +5,7 @@ Communication.prototype.doPost = function (url2, data2, type2) {
         url: url2,
         method: "POST",
         data: data2,
-        async: 'true',
+        async: 'false',
         type: type2
     });
     $.ajax({
@@ -15,6 +15,7 @@ Communication.prototype.doPost = function (url2, data2, type2) {
         async: 'true',
         type: type2,
         success: function (result) {
+            console.log("YEAH");
             //tempproxy.getModel().loadDataFromJson(result);
         }
 
@@ -26,7 +27,7 @@ Communication.prototype.doGet = function (url) {
     $.ajax({
         url: url,
         type: 'GET',
-        async: 'true',
+        async: 'false',
         success: function (result) {
         }
     });

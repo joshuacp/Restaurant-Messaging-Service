@@ -1,5 +1,6 @@
 var	MongoClient = require('mongodb').MongoClient
   , format = require('util').format;
+  	PersonDAO = require('./PersonDAO.js');
 
 var dbClass = this;
 
@@ -8,6 +9,22 @@ function Database() {
   this.host = 'localhost';
   this.port = 27017;
 
+}
+
+Database.prototype.addUser = function (user){
+
+	personDAO = new PersonDAO();
+	personDAO.addUser(user);
+}
+
+
+Database.prototype.validateUser = function (user,callback){
+	console.log('validation');
+	personDAO = new PersonDAO();
+	personDAO.validateUser(user,function(response){
+		console.log('returned to here');
+		callback(response);
+	});
 }
 
 Database.prototype.addRestaurant = function(name){

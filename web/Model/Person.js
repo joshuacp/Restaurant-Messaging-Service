@@ -1,5 +1,4 @@
 
-var loadJSON = require("./loadJSON.js");
 
 function Person(name,id,password,type) {
 
