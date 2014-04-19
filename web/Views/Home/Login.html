@@ -1,0 +1,35 @@
+﻿<div class="row">
+    <h3>Please Log In, or <a href="#">Register</a></h3>
+    <form action="/Views/Home/Show" class="form-horizontal" method="post" role="form" novalidate="novalidate">
+        <div class="form-group">
+            <label class="col-md-2" for="UserName">UserName</label>
+            <div class="col-md-5">
+                <input class="form-control" id="UserName" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2" for="Password">Password</label>
+            <div class="col-md-5">
+                <input class="form-control" id="Password" type="password">
+            </div>
+        </div>
+        <button type="submit" class="btn btn btn-primary">
+            <script>
+                $(document).ready(function () {
+                    var com = new Communication();
+                    var person = new Person();
+                    Console.log($('#UserName').val());
+
+                    person.setName($('#UserName').val());
+                    person.setPassword($('#Password').val());
+                    com.doPost("/Views/Home/Show", JSON.stringify(person),"Post");
+                })
+            </script>
+            Log In
+        </button>
+    </form>
+
+</div>
+
+<script src="../../../js/Person.js"></script>
+<script src="../../Scripts/Communication/Communication.js"></script>
