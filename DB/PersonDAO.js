@@ -40,6 +40,12 @@ var success = false;
 		if (err) console.log(err);
 		else{
 			  db.collection('test').find({ "name": user.getName(), "password": user.getPassword()}).nextObject(function(err, doc) {            
+			       	if(err){
+			       		console.log(err);
+			       		callback(false);
+			       		return false;
+			       	}
+
 			        if(doc == null){
 			        	callback(false);
 			        	return false;

@@ -27,7 +27,7 @@
                     person.name = $('#UserName').val();
                     person.password = $('#Password').val();
                     console.log(person);
-                    com.doPost("/userlogin", JSON.stringify(person),"Post",function(success){
+                    com.doPost("/user/login", JSON.stringify(person),"Post",function(success){
                         console.log("SUCCESS");
                     });
                     console.log('done');

@@ -47,7 +47,7 @@
                         person.password = $('#Password').val();
                         person.type = $('#Type').val();
                         console.log(person);
-                        com.doPost("/usercreate", JSON.stringify(person),"Post");
+                        com.doPost("/user/create", JSON.stringify(person),"Post");
                     }
                 }
             </script>
