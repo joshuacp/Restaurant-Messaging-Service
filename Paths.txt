@@ -3,6 +3,8 @@ create/manager
 create/restaurant
 create/employee
 
+user/login
+
 delete/restaurant
 delete/person
 
