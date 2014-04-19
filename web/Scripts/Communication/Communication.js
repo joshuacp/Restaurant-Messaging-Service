@@ -15,7 +15,11 @@ Communication.prototype.doPost = function (url2, data2, type2) {
         async: 'true',
         type: type2,
         success: function (result) {
-            console.log("YEAH");
+            //console.log("YEAH");
+            //console.log(result);
+            //console.log(JSON.parse(result).Location);
+            window.location = result;
+
             //tempproxy.getModel().loadDataFromJson(result);
         }
 
@@ -29,6 +33,7 @@ Communication.prototype.doGet = function (url) {
         type: 'GET',
         async: 'false',
         success: function (result) {
+           // console.log(result);
         }
     });
 }

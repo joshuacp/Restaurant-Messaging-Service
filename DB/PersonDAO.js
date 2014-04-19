@@ -39,7 +39,7 @@ var success = false;
 		
 		if (err) console.log(err);
 		else{
-			  db.collection('test').find({ "name": user.getName()}).nextObject(function(err, doc) {            
+			  db.collection('test').find({ "name": user.getName(), "password": user.getPassword()}).nextObject(function(err, doc) {            
 			        if(doc == null){
 			        	callback(false);
 			        	return false;
@@ -53,7 +53,7 @@ var success = false;
 		}
 		
 	});
-	return false;
+	//callback(false);
 	//callback(success);
 }
 

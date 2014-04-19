@@ -26,17 +26,21 @@ var file = new(static.Server)('./web/', {
 });
 
 http.createServer(function(req, res) {
+    console.log("SERVER");
     var uri = url.parse(req.url).pathname;
     console.log(uri);
     console.log(req.method);
     if(req.method == "GET"){
+        if(uri == "/Views/Show.html")
+            console.log(req.headers.cookie);
         var filename = path.join(process.cwd(), uri);
         console.log(filename);
     file.serve(req, res, function(err, result) {
       if (err) {
         console.error('Error serving %s - %s', req.url, err.message);
         if (err.status === 404 || err.status === 500) {
-          file.serveFile(util.format('/%d.html', err.status), err.status, {}, req, res);
+          //file.serveFile(util.format('/%d.html', err.status), err.status, {}, req, res);
+          return;
         } else {
           res.writeHead(err.status, err.headers);
           res.end();
@@ -48,7 +52,11 @@ http.createServer(function(req, res) {
     }
     else if(req.method == "POST"){
 
-        return processPost(req,res);
+        return processPost(req,res, function(){
+            req.end();
+            return;
+        });
+        //req.url ="";
            
     }
 }).listen(44444);
@@ -90,30 +98,40 @@ processPost = function(request,response){
 
         //interpret cookies
         //decode the URI
+        var home = this;
 
         var db = new Database();
-        if(url == "/user/create")
+        if(url == "/usercreate")
             db.addUser(p);
-        if(url == "/user/login"){
+        if(url == "/userlogin"){
             var stat = false;
-            db.validateUser(p,function(response,returnValue){
-                console.log('returned to Server');
-                console.log(returnValue);
-                if(returnValue){
+            function s(){
+                console.log('yeah');
+                    db.validateUser(p,function(returnValue){
+                    console.log('returned to Server ' + returnValue);
+                    
+                    if(returnValue){
+                        console.log("return value good");
+                        response.setHeader("Set-cookie", "user=" + JSON.stringify(("name=" + p.getName()+" "+"password=" + p.getPassword())) +";Path=/;");
+                        
+                        //response.setHeader("Redirect",  "location=" +{Location: ''});
+                        //response.writeHead(302, {'Location': 'Views/Create.html'});
+                        //console.log(request.url);
+                        //response.write("Post is not implemented yet.");
+                        //console.log("HEDERS" + response.headers);
+                        var a = {Location:'http://localhost:44444/Views/Create.html'};
+                        response.end("http://localhost:44444/Views/Show.html");
 
-                    response.header("Set-cookie", "user=" + p.getName() +";Path=/;");
-                    response.setHeader("200", {"Content-Type": "text/plain"});
-                    response.write("Post is not implemented yet.");
-                    response.end();
-                    return;
+                    }
+                    else{
+                        console.log("BAD");
+                    }
 
-                }
-                else{
-                    console.log("BAD");
-                }
-
-            });
+                });
+            }
+            s();
         }
+
     });
 }
  

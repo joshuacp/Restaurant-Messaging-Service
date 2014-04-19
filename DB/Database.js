@@ -22,7 +22,7 @@ Database.prototype.validateUser = function (user,callback){
 	console.log('validation');
 	personDAO = new PersonDAO();
 	personDAO.validateUser(user,function(response){
-		console.log('returned to here');
+		console.log('returned to here: ' + response);
 		callback(response);
 	});
 }
