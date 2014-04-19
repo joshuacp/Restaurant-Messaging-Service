@@ -45,7 +45,7 @@ var app = connect()
 );
 http.createServer(app).listen(8081);
 */
-var webroot = '/web/',
+var webroot = './web/',
   port = 44444;
 
 
