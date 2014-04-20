@@ -70,8 +70,10 @@ http.createServer(function(req, res) {
 function validateCookie(req,res,callback){
 
     var cookie = req.headers.cookie
-            if(cookie != null){
-                var cook = cookie.split("user=")[1];
+            var cookies = parseCookies(req);
+            
+            if(cookies != null){
+                var cook = cookies['user']
                 console.log(JSON.parse(cook));
                 p = new Person();
                 p.loadFromJSON(JSON.parse(cook));
@@ -94,7 +96,7 @@ function validateCookie(req,res,callback){
             }
             else{
                 console.log('no cookie');
-                 callback(false);;
+                 callback(false);
             }
 
 
@@ -124,17 +126,6 @@ function serve(req,res){
 
 }
 
-function P(name,id,password,type) {
-
-
-    this.name = name;
-
-}
-
-P.prototype.getName = function() {
-    return this.name;
-};
-
 
 processPost = function(request,response){
     console.log('process');
@@ -147,69 +138,79 @@ processPost = function(request,response){
     request.on('end', function () {
 
         var POST = JSON.parse(body);
-        var p = new CalendarEvent();
+        var p = new Person();
         p.loadFromJSON(POST);
 
-        
-        //console.log("NAME: " + p.getName());
         var url = request.url;
         console.log(url);
 
-        //console.log(body);
-
-        //interpret cookies
-        //decode the URI
-        var home = this;
 
         var db = new Database();
         if(url == "/user/create"){
             db.addUser(p);
             response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
-                        
-                        //response.setHeader("Redirect",  "location=" +{Location: ''});
-                        //response.writeHead(302, {'Location': 'Views/Create.html'});
-                        //console.log(request.url);
-                        //response.write("Post is not implemented yet.");
-                        //console.log("HEDERS" + response.headers);
-
-                        var a = {Location:'http://localhost:44444/Views/Create.html'};
-            response.end("http://localhost:44444/Views/Show.html");
+            response.end("http://localhost:44444/Views/CreateRestaurant.html");
 
         }
-        if(url == "/user/login"){
-            var stat = false;
-            function s(){
-                console.log('yeah');
-                    db.validateUser(p,function(returnValue){
-                    console.log('returned to Server ' + returnValue);
-                    
-                    if(returnValue){
-                        console.log("return value good");
-                        var s = new Person();
-                        s.setName("bob");
-                        s.setPassword("incorrect");
-                        response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
-                        
-                        //response.setHeader("Redirect",  "location=" +{Location: ''});
-                        //response.writeHead(302, {'Location': 'Views/Create.html'});
-                        //console.log(request.url);
-                        //response.write("Post is not implemented yet.");
-                        //console.log("HEDERS" + response.headers);
+        else if(url == "/user/login"){
+            db.validateUser(p,function(returnValue){
+                
+                if(returnValue){
+                    response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
+                    response.end("http://localhost:44444/Views/Show.html");
 
-                        var a = {Location:'http://localhost:44444/Views/Create.html'};
-                        response.end("http://localhost:44444/Views/Show.html");
+                }
+                else
+                    console.log("BAD");
 
-                    }
-                    else{
-                        console.log("BAD");
-                    }
-
-                });
-            }
-            s();
+            });
         }
+        else if(url == "/restaurant/join"){
+            db.validateRestaurant(p,function(returnValue){
+                
+                if(returnValue){
+                    response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
+                    response.end("http://localhost:44444/Views/Show.html");
+
+                }
+                else
+                    console.log("BAD");
+
+            });
+
+        }
+         else if(url == "/restaurant/create"){
+            console.log('okay');
+            db.addRestaurant(p,function(cresponse){
+                console.log("LAST: " + cresponse);
+                p.setID(cresponse);
+                console.log(p)
+                response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
+                response.end("http://localhost:44444/Views/Show.html");
+
+            });
+
+
+        }   
+
+        
 
     });
+
 }
+
+function parseCookies (request) {
+    var list = {},
+        rc = request.headers.cookie;
+
+    rc && rc.split(';').forEach(function( cookie ) {
+        var parts = cookie.split('=');
+        list[parts.shift().trim()] = unescape(parts.join('='));
+    });
+
+    return list;
+    //http://stackoverflow.com/questions/3393854/get-and-set-a-single-cookie-with-node-js-http-server
+}
+
  
 sys.puts("Server running at http://localhost:44444/");

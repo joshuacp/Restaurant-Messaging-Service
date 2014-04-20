@@ -1,6 +1,7 @@
 var	MongoClient = require('mongodb').MongoClient
   , format = require('util').format;
   	PersonDAO = require('./PersonDAO.js');
+  	RestaurantDAO = require('./RestaurantDAO.js');
 
 var dbClass = this;
 
@@ -27,25 +28,23 @@ Database.prototype.validateUser = function (user,callback){
 	});
 }
 
-Database.prototype.addRestaurant = function(name){
+Database.prototype.addRestaurant = function(restaurant,callback){
 
-	MongoClient.connect(format("mongodb://%s:%s/test", this.host, this.port), function(err, db) {
-		  
-		  /*db.createCollection('t',function(err,collection){
-		    if (err) throw err;
+	restaurantDAO = new RestaurantDAO();
+	restaurantDAO.addRestaurant(restaurant,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
+	
+}
 
-		   // console.log(collection);
-		  });*/
-		  
-		  var t = db.collection('test');
 
-		  t.insert({"name":name},function(err,records){
-		    if(err) throw err;
-		    console.log("record added " + records[0]._id);
-		  });
-		  console.log(t.find()[0]);  
+Database.prototype.validateRestaurant = function(restaurant,callback){
 
-		  //console.dir(x)
+	restaurantDAO = new RestaurantDAO();
+	restaurantDAO.validateUser(restaurant,function(response){
+		console.log('returned to here: ' + response);
+		callback(response);
 	});
 	
 }
