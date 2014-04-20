@@ -30,8 +30,8 @@ http.createServer(function(req, res) {
     var uri = url.parse(req.url).pathname;
     console.log(req.method);
     if(req.method == "GET"){
-        if(uri == "/Views/Login.html" || uri == "/Views/Create.html"
-            || uri == "/Scripts/Communication/Communication.js"|| uri == "/Model/Person.js"){
+        if(uri == "/Views/Login.html" || uri == "/Views/Create.html" || uri == "/Views/LoginRestaurant.html" 
+            || uri == "/Scripts/Communication/Communication.js"|| uri == "/Model/Person.js" || uri == "/Model/Restaurant.js"){
             console.log("serving normal");
             serve(req,res);
 
@@ -70,35 +70,61 @@ http.createServer(function(req, res) {
 function validateCookie(req,res,callback){
 
     var cookie = req.headers.cookie
-            var cookies = parseCookies(req);
-            
-            if(cookies != null){
-                var cook = cookies['user']
-                console.log(JSON.parse(cook));
-                p = new Person();
-                p.loadFromJSON(JSON.parse(cook));
-                db = new Database();
-                db.validateUser(p,function(returnValue){
+    var cookies = parseCookies(req);
+    
+    if(cookies == null)
+        callback(false);
 
-                    if(returnValue)
-                        console.log('good');
-                    else{
-                        res.writeHead(302, {'Location': '/Views/Login.html'});
-                        //res.end("http://localhost:44444/Views/Login.html");
-                        console.log("BAD");
-                        res.end();
-                        callback(false);
-                    }
-                    console.log("R: " + returnValue);
-                    callback(returnValue);
-                    
-                })
-            }
-            else{
-                console.log('no cookie');
-                 callback(false);
-            }
+    console.log("COOKIES: " + cookies);
 
+    var userCook = cookies['user']
+    console.log(userCook);
+    if(userCook == null){
+        reidrectTo(res,"/Views/Login.html");
+        callback(false);
+        res.end();
+        return;
+        console.log("DIdNT RETURN");
+    }
+
+    var restaurantCook = cookies['restaurant']
+    console.log(restaurantCook);
+    if(restaurantCook == null){
+        redirectTo(res,"/Views/LoginRestaurant.html");
+        callback(false);
+        res.end();
+        return;
+        console.log("DIdNT RETURN");
+    }
+
+    p = new Person();
+    p.loadFromJSON(JSON.parse(userCook));
+    console.log(p);
+    db = new Database();
+    db.validateUser(p,function(returnValue){
+
+        if(returnValue)
+            console.log('good');
+        else{
+            reidrectTo(res,"/Views/Login.html");
+            callback(false);
+        }
+        console.log("R: " + returnValue);
+        callback(returnValue);
+        
+    })
+
+
+
+}
+
+function redirectTo(res,url){
+
+    res.writeHead(302, {'Location': url});
+    //res.end("http://localhost:44444/Views/Login.html");
+    console.log("Sending to: " + url);
+    res.end();
+    return;
 
 
 }
@@ -157,6 +183,8 @@ processPost = function(request,response){
                 
                 if(returnValue){
                     response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
+
+                    console.log('back');
                     response.end("http://localhost:44444/Views/Show.html");
 
                 }

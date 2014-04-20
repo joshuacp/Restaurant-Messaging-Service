@@ -35,8 +35,8 @@ PersonDAO.prototype.practiceCallback = function(){
 
 PersonDAO.prototype.validateUser = function(user,callback){
 var success = false;
-	MongoClient.connect(format("mongodb://%s:%s/test", this.getHost(), this.getPort()), function(err,db){
-		
+	MongoClient.connect	(format("mongodb://%s:%s/test", this.getHost(), this.getPort()), function(err,db){
+		//console.log(user.getName());
 		if (err) console.log(err);
 		else{
 			  db.collection('test').find({ "name": user.getName(), "password": user.getPassword()}).nextObject(function(err, doc) {            
