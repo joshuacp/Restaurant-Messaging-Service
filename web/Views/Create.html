@@ -2,33 +2,79 @@
 <script src="../Model/Person.js"></script>
 <script src="../Scripts/Communication/Communication.js"></script>
 
-<div class="row">
+<link href="../../Content/app.css" rel="stylesheet" type="text/css" /><!-- -->
+<link href="../../Content/bootstrap.css" rel="stylesheet" type="text/css" /><!-- -->
+<link href="../../Content/bootstrap.min.css" rel="stylesheet" type="text/css" /><!-- -->
+<link href="../../Content/Site.css" rel="stylesheet" type="text/css" /><!-- -->
+
+<style>
+    #container {
+        position: absolute;
+        left: 35%;
+        top: 35%;
+        height: 600px;
+        width: 800px;
+    }
+</style>
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Home/Show">Shift Link</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/Home/Show">Home</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="container">
     <h3>Please Enter a Username and Password</h3>
-        <div>
-            <label class="col-md-2" for="UserName">UserName</label>
-            <div class="col-md-5">
-                <input id="UserName" type="text">
-            </div>
+    <br><br>
+    <div>
+        <label class="col-md-2" for="UserName">UserName</label>
+        <div class="col-md-5">
+            <input id="UserName" type="text">
         </div>
-        <div>
-            <label class="col-md-2" for="Password">Password</label>
-            <div class="col-md-5">
-                <input id="Password" type="password">
-            </div>
+    </div>
+    <br><br>
+
+    <div>
+        <label class="col-md-2" for="Password">Password</label>
+        <div class="col-md-5">
+            <input id="Password" type="password">
         </div>
-        <div>
-            <label class="col-md-2" for="Password">Password</label>
-            <div class="col-md-5">
-                <input id="Password2" type="password">
-            </div>
+    </div>
+    <br><br>
+
+    <div>
+        <label class="col-md-2" for="Password">Password</label>
+        <div class="col-md-5">
+            <input id="Password2" type="password">
         </div>
-        <div>
-            <label class="cold-md-2" for="Type">Type</label>
+    </div>
+    <br><br>
+
+    <div>
+        <label class="col-md-2" for="Type">Type</label>
+        <div class="col-md-5">
             <select data-val="true" data-val-required="The Type field is required." id="Type" name="Type">
                 <option value="Employee">Employee</option>
                 <option value="Manager">Manager</option>
             </select>
         </div>
+    </div>
+    <br><br>
+
+    <div class="col-md-7 col-md-push-2">
         <button id="submit" onclick="submit()" class="btn btn btn-primary">
             <script>
                 function submit() {
@@ -53,5 +99,5 @@
             </script>
             Log In
         </button>
-
+    </div>
 </div>

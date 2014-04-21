@@ -2,38 +2,79 @@
 <script src="../Model/Person.js"></script>
 <script src="../Scripts/Communication/Communication.js"></script>
 
-<div class="row">
-    <h3>Please Log In, or <a href="#">Register</a></h3>
-        <div>
-            <label class="col-md-2" for="UserName">UserName</label>
-            <div class="col-md-5">
-                <input id="UserName" type="text">
-            </div>
-        </div>
-        <div>
-            <label class="col-md-2" for="Password">Password</label>
-            <div class="col-md-5">
-                <input id="Password" type="password">
-            </div>
-        </div>
-        <button id="submit" onclick="submit()" class="btn btn btn-primary">
-            <script>
-                function submit() {
-                    var com = new Communication();
-                    var person = new Person();
-                    console.log($('#UserName').val());
-                    console.log(person);
+<link href="../../Content/app.css" rel="stylesheet" type="text/css" /><!-- -->
+<link href="../../Content/bootstrap.css" rel="stylesheet" type="text/css" /><!-- -->
+<link href="../../Content/bootstrap.min.css" rel="stylesheet" type="text/css" /><!-- -->
+<link href="../../Content/Site.css" rel="stylesheet" type="text/css" /><!-- -->
 
-                    person.name = $('#UserName').val();
-                    person.password = $('#Password').val();
-                    console.log(person);
-                    com.doPost("/user/login", JSON.stringify(person),"Post",function(success){
-                        console.log("SUCCESS");
-                    });
-                    console.log('done');
-                }
-            </script>
-            Log In
-        </button>
+<style>
+    #container {
+        position: absolute;
+        left: 35%;
+        top: 35%;
+        height: 600px;
+        width: 800px;
+    }
+</style>
 
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Home/Show">Shift Link</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/Home/Show">Home</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
+
+<div class="container" id="container">
+    <div class="col-md-5">
+        <h3>Please Log In, or <a href="#">Register</a></h3>
+            <div>
+                <label class="col-md-4" for="UserName">UserName</label>
+                <div class="col-md-5">
+                    <input id="UserName" type="text">
+                </div>
+            </div>
+            <br><br>
+            <div>
+                <label class="col-md-4" for="Password">Password</label>
+                <div class="col-md-5">
+                    <input id="Password" type="password">
+                </div>
+            </div>
+            <br><br>
+            <div class="col-md-7 col-md-push-4">
+                <button id="submit" onclick="submit()" class="btn btn btn-primary">
+                    <script>
+                        function submit() {
+                            var com = new Communication();
+                            var person = new Person();
+                            console.log($('#UserName').val());
+                            console.log(person);
+
+                            person.name = $('#UserName').val();
+                            person.password = $('#Password').val();
+                            console.log(person);
+                            com.doPost("/user/login", JSON.stringify(person),"Post",function(success){
+                                console.log("SUCCESS");
+                            });
+                            console.log('done');
+                        }
+                    </script>
+                    Log In
+                </button>
+            </div>
+    </div>
+</div>
+
+<footer class="text-center">&copy; 2014 - Shift Link, Inc.</footer>
