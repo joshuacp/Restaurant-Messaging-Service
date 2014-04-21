@@ -1,11 +1,12 @@
 
 var loadJSON = require("./loadJSON.js");
 
-function Person(name,id,password,type) {
+function Person(name,id,password,type,restaurantID) {
 
 	
     this.name = name;
     this.id = id;
+    this.restaurantID = restaurantID;
     this.password = password;
     this.type = type
 
@@ -23,6 +24,14 @@ Person.prototype.setName = function(name) {
 
 Person.prototype.setID = function(id) {
 	this.id = id;
+};
+
+Person.prototype.setRestaurantID = function(restaurantID) {
+	this.restaurantID = restaurantID;
+};
+
+Person.prototype.getRestaurantID = function() {
+	return this.restaurantID;
 };
 
 Person.prototype.setType = function(type){

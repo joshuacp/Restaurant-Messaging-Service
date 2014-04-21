@@ -194,16 +194,21 @@ processPost = function(request,response){
             });
         }
         else if(url == "/restaurant/join"){
-            db.validateRestaurant(p,function(returnValue){
-                
+            db.validateUser(p,function(returnValue){
+                console.log("User validated, trying to do stuff");
                 if(returnValue){
-                    response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
-                    response.end("http://localhost:44444/Views/Show.html");
+                    db.validateRestaurant(p,function(returnValue){
+                    
+                        if(returnValue){
+                            response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
+                            response.end("http://localhost:44444/Views/Show.html");
 
+                        }
+                        else
+                            console.log("BAD");
+
+                    });
                 }
-                else
-                    console.log("BAD");
-
             });
 
         }
