@@ -31,23 +31,37 @@ http.createServer(function(req, res) {
     var uri = url.parse(req.url).pathname;
     console.log(req.method);
     if(req.method == "GET"){
-        if(uri == "/Views/Login.html" || uri == "/Views/Create.html" || uri == "/Views/LoginRestaurant.html" 
-            || uri == "/Scripts/Communication/Communication.js"|| uri == "/Model/Person.js" || uri == "/Model/Restaurant.js"){
+        if(uri == "/Views/Login.html" || uri == "/Views/Create.html" 
+            || uri == "/Scripts/Communication/Communication.js"|| uri == "/Model/Person.js" || 
+            uri == "/Model/Restaurant.js" || isCSSData(uri) ){
             console.log("serving normal");
             serve(req,res);
+
+        }
+        else if(uri == "/Views/CreateRestaurant.html" || uri == "/Views/LoginRestaurant.html"){
+            validateUserCookie(req,res,function(r){
+                if(r)
+                    serve(req,res);
+                else
+                    console.log("No GooD");
+
+            })
 
         }
         else{
             console.log("serving cookies");
             console.log(uri);
 
-            validateCookie(req,res,function(r){
+            validateCookies(req,res,function(r){
                 console.log('returned');
                 console.log(r);
                 if(r)
                     serve(req,res);
-                else
+                else{
                     console.log("NO GOOD");
+                    //redirectTo(res,"/Views/Login.html");
+
+                }
             })
 
             
@@ -68,7 +82,47 @@ http.createServer(function(req, res) {
 
 //http://www.sitepoint.com/serving-static-files-with-node-js/
 
-function validateCookie(req,res,callback){
+function isCSSData(uri){
+
+    return uri == "/Conetent/Site.css"  || uri == "/Content/app.css" 
+    || uri == "/Content/bootstrap.css" || uri == "/Content/bootstrap.min.css";
+
+}
+
+function validateUserCookie(req,res,callback){
+    console.log("COOKIE");
+    var userCook = getCookie(req,'user');
+    console.log(userCook);
+    if(userCook == null){
+       redirectTo(res,"/Views/Login.html");
+        callback(false);
+        res.end();
+        return;
+        console.log("DIDNT RETURN");
+    }
+    p = new Person();
+    p.loadFromJSON(JSON.parse(userCook));
+
+    console.log(p);
+    db = new Database();
+    db.validateUser(p,function(returnValue){
+
+        if(returnValue)
+            console.log('good');
+        else{
+            reidrectTo(res,"/Views/Login.html");
+            callback(false);
+        }
+        console.log("R: " + returnValue);
+        callback(returnValue);
+        
+    })
+
+
+
+}
+
+function validateCookies(req,res,callback){
     console.log("COOKIE");
     var userCook = getCookie(req,'user');
     console.log(userCook);
@@ -188,7 +242,6 @@ processPost = function(request,response){
                     response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
                     console.log('back');
                     response.end("http://localhost:44444/Views/Show.html");
-
                 }
                 else
                     console.log("BAD");
