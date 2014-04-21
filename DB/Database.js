@@ -18,6 +18,13 @@ Database.prototype.addUser = function (user){
 	personDAO.addUser(user);
 }
 
+Database.prototype.editUser = function (user){
+
+	personDAO = new PersonDAO();
+	console.log("USER: " + user);
+	personDAO.editUser(user);
+}
+
 
 Database.prototype.validateUser = function (user,callback){
 	console.log('validation');
@@ -25,6 +32,15 @@ Database.prototype.validateUser = function (user,callback){
 	personDAO.validateUser(user,function(response){
 		console.log('returned to here: ' + response);
 		callback(response);
+	});
+}
+
+Database.prototype.getRestaurantID = function (restaurant,callback){
+
+	restaurantDAO = new RestaurantDAO();
+	restaurantDAO.getRestaurantID(restaurant,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
 	});
 }
 

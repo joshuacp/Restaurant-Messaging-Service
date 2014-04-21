@@ -9,6 +9,7 @@ var sys = require("sys"),
     Restaurant = require("./DB/Restaurant.js");
     Database = require("./DB/Database.js");
     Person = require("./DB/Person.js");
+    Super = require("./DB/Super.js");
     CalendarEvent = require("./DB/CalendarEvent.js");
     mime = require('mime');
     connect = require('connect');
@@ -68,37 +69,28 @@ http.createServer(function(req, res) {
 //http://www.sitepoint.com/serving-static-files-with-node-js/
 
 function validateCookie(req,res,callback){
-
-    var cookie = req.headers.cookie
-    var cookies = parseCookies(req);
-    
-    if(cookies == null)
-        callback(false);
-
-    console.log("COOKIES: " + cookies);
-
-    var userCook = cookies['user']
+    console.log("COOKIE");
+    var userCook = getCookie(req,'user');
     console.log(userCook);
     if(userCook == null){
-        reidrectTo(res,"/Views/Login.html");
+       redirectTo(res,"/Views/Login.html");
         callback(false);
         res.end();
         return;
-        console.log("DIdNT RETURN");
+        console.log("DIDNT RETURN");
     }
-
-    var restaurantCook = cookies['restaurant']
-    console.log(restaurantCook);
-    if(restaurantCook == null){
+    console.log("ID: " + JSON.parse(userCook).restaurantID);
+    if(JSON.parse(userCook).restaurantID == null){
         redirectTo(res,"/Views/LoginRestaurant.html");
         callback(false);
         res.end();
         return;
-        console.log("DIdNT RETURN");
+        console.log("DIDNT RETURN");
     }
 
     p = new Person();
     p.loadFromJSON(JSON.parse(userCook));
+
     console.log(p);
     db = new Database();
     db.validateUser(p,function(returnValue){
@@ -116,6 +108,17 @@ function validateCookie(req,res,callback){
 
 
 
+}
+
+function getCookie(req,name){
+
+    var cookie = req.headers.cookie
+    var cookies = parseCookies(req);
+    
+    if(cookies == null)
+        return null;
+
+    return cookies[name]; 
 }
 
 function redirectTo(res,url){
@@ -164,7 +167,7 @@ processPost = function(request,response){
     request.on('end', function () {
 
         var POST = JSON.parse(body);
-        var p = new Person();
+        var p = new Super();
         p.loadFromJSON(POST);
 
         var url = request.url;
@@ -183,7 +186,6 @@ processPost = function(request,response){
                 
                 if(returnValue){
                     response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
-
                     console.log('back');
                     response.end("http://localhost:44444/Views/Show.html");
 
@@ -196,38 +198,73 @@ processPost = function(request,response){
         else if(url == "/restaurant/join"){
             db.validateUser(p,function(returnValue){
                 console.log("User validated, trying to do stuff");
+                var userCookie = getCookie(request,"user");
+                if(userCookie == null)
+                    response.end("http://localhost:44444/Views/Login.html");
                 if(returnValue){
+
                     db.validateRestaurant(p,function(returnValue){
                     
                         if(returnValue){
-                            response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
+                            //response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
+
+                            db.getRestaurantID(p,function(returnValue){
+
+                            console.log(returnValue);
+                            var u = new Person();
+                            var jU = JSON.parse(userCookie);
+                            console.log(jU);
+                            console.log(jU['name'] + " " + jU['password'] + " " + p.getID());
+                            u.loadFromJSON(jU);
+                            u.setRestaurantID(returnValue);
+                            console.log(u.getName() + " " + u.getPassword());
+                            db.editUser(u);
+                            response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
                             response.end("http://localhost:44444/Views/Show.html");
+                            
+                    })
+                   
 
                         }
                         else
                             console.log("BAD");
 
                     });
+
+
+                   /**/
                 }
             });
 
         }
          else if(url == "/restaurant/create"){
             console.log('okay');
-            db.addRestaurant(p,function(cresponse){
-                console.log("LAST: " + cresponse);
-                p.setID(cresponse);
-                console.log(p)
-                response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
-                response.end("http://localhost:44444/Views/Show.html");
+            var u = new Person();
+            u.loadFromJSON(JSON.parse(getCookie(request,"user")));
+            db.validateUser(u,function(returnValue){
+               console.log("Validate:"+returnValue);
+                if(returnValue){
+                    db.addRestaurant(p,function(cresponse){
+                            
+                        db.getRestaurantID(p,function(returnValue){
+                            console.log(returnValue);
+                            var u = new Person();
+                            var jU = JSON.parse(getCookie(request,"user"));
+                            console.log(jU);
+                            console.log(jU['name'] + " " + jU['password'] + " " + p.getID());
+                            u.loadFromJSON(jU);
+                            u.setRestaurantID(returnValue);
+                            console.log(u.getName() + " " + u.getPassword());
+                            db.editUser(u);
+                            response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
+                            response.end("http://localhost:44444/Views/Show.html");
+                        });
 
-            });
+                    });
+                }
+            });   
 
-
-        }   
-
-        
-
+        }
     });
 
 }

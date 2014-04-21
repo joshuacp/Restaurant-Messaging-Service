@@ -28,6 +28,30 @@ PersonDAO.prototype.addUser = function(user){
 	});
 }
 
+PersonDAO.prototype.editUser = function(user){
+	console.log('adduser');
+	var dbs = this;
+	MongoClient.connect(format("mongodb://%s:%s/test", this.getHost(), this.getPort()), function(err,db){
+		if (err) console.log(err);
+		else{
+			console.log("UPDATING to: " + user);
+			db.collection('test').update({ "name": user.getName(), "password": user.getPassword()},user, function(err, records) {
+				if (err || records == null) sys.puts (err); return;
+				//else
+					//console.log("Record added as "+records[0]._id);
+				console.log(records);
+
+			});
+			console.log('after');
+			dbs.validateUser(user,function(re){
+				console.log("NEW USER?: " + re);
+			});
+
+		}
+
+	});
+}
+
 PersonDAO.prototype.practiceCallback = function(){
 
 }
