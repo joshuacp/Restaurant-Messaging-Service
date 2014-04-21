@@ -33,7 +33,8 @@ Communication.prototype.doGet = function (url) {
         type: 'GET',
         async: 'false',
         success: function (result) {
-           // console.log(result);
+           console.log(result);
+           return result;
         }
     });
 }
