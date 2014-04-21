@@ -5,6 +5,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
 
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -30,7 +31,7 @@
 
   <ul class="nav nav-tabs">
     <li class="active">
-      <a href="#mesage-tab" data-toggle="tab">
+      <a href="#message-tab" data-toggle="tab">
         <i class="fa fa-envelope"></i>
         &nbsp;&nbsp;MSG
       </a>
@@ -50,7 +51,7 @@
   </ul>
   <div class="tab-content stacked-content">
 
-    <div class="tab-pane fade in active" id="message-tab">
+    <div class="tab-pane fade active in" id="message-tab">
       <h3>Messages</h3>
       <hr><br>
     </div>
@@ -63,6 +64,46 @@
     <div class="tab-pane fade" id="task-tab">
       <h3 class="">Tasks</h3>
       <hr><br>
+
+
+<div class="table-responsive">
+  <table class="table table-bordered table-highlight table-hover">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Issuer</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+
+
+    <tbody>
+      @foreach (var tenant in Model)
+      {
+        <tr data-tenantid="@tenant.Id">
+          <td><a href="@Url.Action(MVC.Tenant.Show(tenant.Id))">@tenant.Name</a></td>
+          <td>@Html.LabelForTenantType(tenant.GetType())</td>
+          <td>@Html.LabelForTenantStatus(tenant.Status)</td>
+          <td>
+            <a href="@Url.Action(MVC.Tenant.Show(tenant.Id))" class="btn btn-xs btn-secondary" title="Edit Customer Info">
+              <i class="fa fa-pencil"></i>
+            </a>
+            <a class="btn btn-xs btn-remove" style="float: right" data-id="@tenant.Id">
+              <i class="fa fa-power-off"></i><!--maybe fa-retweet-->
+            </a>
+          </td>
+        </tr>
+      }
+    </tbody>
+
+  </table>
+</div>
+@section Scripts {
+  @Html.RequireJsModule("app/tenant/List")
+}
+
+
     </div>
 
   </div>
