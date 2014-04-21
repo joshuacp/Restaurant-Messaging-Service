@@ -10,6 +10,7 @@ var sys = require("sys"),
     Database = require("./DB/Database.js");
     Person = require("./DB/Person.js");
     Super = require("./DB/Super.js");
+    Task = require("./DB/Task.js");
     CalendarEvent = require("./DB/CalendarEvent.js");
     mime = require('mime');
     connect = require('connect');
@@ -47,6 +48,18 @@ http.createServer(function(req, res) {
 
             })
 
+        }
+        else if(uri == "/get/tasks"){
+            validateCookies(req,res,function(r){
+
+                if(r){
+                    var db = new Database();
+                    db.getTasks();
+                }
+                else{
+
+                }
+            })
         }
         else{
             console.log("serving cookies");
@@ -152,7 +165,7 @@ function validateCookies(req,res,callback){
         if(returnValue)
             console.log('good');
         else{
-            reidrectTo(res,"/Views/Login.html");
+            redirectTo(res,"/Views/Login.html");
             callback(false);
         }
         console.log("R: " + returnValue);
@@ -220,7 +233,14 @@ processPost = function(request,response){
     });
     request.on('end', function () {
 
+        console.log(body);
+        if(body == ""){
+            //set response
+            response.end();
+            return;
+        }
         var POST = JSON.parse(body);
+
         var p = new Super();
         p.loadFromJSON(POST);
 
@@ -232,7 +252,7 @@ processPost = function(request,response){
         if(url == "/user/create"){
             db.addUser(p);
             response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
-            response.end("http://localhost:44444/Views/CreateRestaurant.html");
+            response.end("http://localhost:44444/Views/JoinRestaurant.html");
 
         }
         else if(url == "/user/login"){
@@ -263,20 +283,19 @@ processPost = function(request,response){
 
                             db.getRestaurantID(p,function(returnValue){
 
-                            console.log(returnValue);
-                            var u = new Person();
-                            var jU = JSON.parse(userCookie);
-                            console.log(jU);
-                            console.log(jU['name'] + " " + jU['password'] + " " + p.getID());
-                            u.loadFromJSON(jU);
-                            u.setRestaurantID(returnValue);
-                            console.log(u.getName() + " " + u.getPassword());
-                            db.editUser(u);
-                            response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                            response.end("http://localhost:44444/Views/Show.html");
+                                console.log(returnValue);
+                                var u = new Person();
+                                var jU = JSON.parse(userCookie);
+                                console.log(jU);
+                                console.log(jU['name'] + " " + jU['password'] + " " + p.getID());
+                                u.loadFromJSON(jU);
+                                u.setRestaurantID(returnValue);
+                                console.log(u.getName() + " " + u.getPassword());
+                                db.editUser(u);
+                                response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
+                                response.end("http://localhost:44444/Views/Show.html");
                             
-                    })
-                   
+                            })
 
                         }
                         else
@@ -316,6 +335,48 @@ processPost = function(request,response){
                     });
                 }
             });   
+
+        }
+        else if(url == "/task/create"){
+            db.validateUser(p,function(returnValue){
+                console.log("User validated, trying to do stuff");
+                var userCookie = getCookie(request,"user");
+                if(userCookie == null)
+                    response.end("http://localhost:44444/Views/Login.html");
+                if(returnValue){
+
+                    db.validateRestaurant(p,function(returnValue){
+                    
+                        if(returnValue){
+                            //response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
+
+                            db.getRestaurantID(p,function(returnValue){
+
+                                console.log(returnValue);
+                                var t = new Task();
+                                var jT = JSON.parse(userCookie);
+                                console.log(jT);
+                                console.log(jT['issuer'] + " " + jU['details'] + " " + p.getID());
+                                t.loadFromJSON(jT);
+                                t.setRestaurantID(returnValue);
+                                console.log(t.getName() + " " + t.getPassword());
+                                db.addTask(t);
+                                /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
+                                response.end("http://localhost:44444/Views/Show.html");*/
+                                // set happy headers?
+                            
+                            })
+
+                        }
+                        else
+                            console.log("BAD");
+
+                    });
+
+
+                   /**/
+                }
+            }); 
 
         }
     });

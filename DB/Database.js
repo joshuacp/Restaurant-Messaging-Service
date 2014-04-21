@@ -2,6 +2,7 @@ var	MongoClient = require('mongodb').MongoClient
   , format = require('util').format;
   	PersonDAO = require('./PersonDAO.js');
   	RestaurantDAO = require('./RestaurantDAO.js');
+  	TaskDAO = require('./TaskDAO.js');
 
 var dbClass = this;
 
@@ -52,6 +53,25 @@ Database.prototype.addRestaurant = function(restaurant,callback){
 		if (typeof callback=="function") callback(response);
 	});
 	
+}
+
+Database.prototype.addTask = function(task,callback){
+
+	taskDAO = new TaskDAO();
+	taskDAO.addTask(task,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
+}
+
+
+Database.prototype.getTasks = function(task,callback){
+
+	taskDAO = new TaskDAO();
+	taskDAO.getTasks(function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
 }
 
 

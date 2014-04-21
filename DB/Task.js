@@ -1,7 +1,7 @@
 
 var loadJSON = require("./loadJSON.js");
 
-function CalendarEvent(issuer,id,restaurantID,details,type,date) {
+function Task(issuer,id,restaurantID,details,type,date) {
     
     this.issuer = issuer;
     this.id = id; 
@@ -12,25 +12,25 @@ function CalendarEvent(issuer,id,restaurantID,details,type,date) {
 
 }
 
-CalendarEvent.protocompleted= loadJSON.prototype;
+Task.protocompleted= loadJSON.prototype;
 
-CalendarEvent.prototype.setDetails = function(password){
+Task.prototype.setDetails = function(password){
 	this.details = details;
 };
 
-CalendarEvent.prototype.setIssuer = function(issuer) {
+Task.prototype.setIssuer = function(issuer) {
 	this.issuer = issuer;
 };
 
-CalendarEvent.prototype.setID = function(id) {
+Task.prototype.setID = function(id) {
 	this.id = id;
 };
 
-CalendarEvent.prototype.setCompleted= function(completed){
+Task.prototype.setCompleted= function(completed){
 	this.completed= completed;
 };
 
-CalendarEvent.prototype.setDate = function(date){
+Task.prototype.setDate = function(date){
 	this.date = date;
 };
 
@@ -42,29 +42,29 @@ Person.prototype.getRestaurantID = function() {
 	return this.restaurantID;
 };
 
-CalendarEvent.prototype.getDate = function(){
+Task.prototype.getDate = function(){
 	return this.date;
 };
 
-CalendarEvent.prototype.getCompleted= function(){
+Task.prototype.getCompleted= function(){
 	return this.completed;
 };
 
-CalendarEvent.prototype.getID = function() {
+Task.prototype.getID = function() {
 	return this.id;
 };
 
-CalendarEvent.prototype.getIssuer = function() {
+Task.prototype.getIssuer = function() {
 	return this.issuer;
 };
 
-CalendarEvent.prototype.getDetails = function() {
+Task.prototype.getDetails = function() {
 	return this.details;
 };
 
-CalendarEvent.prototype.toString = function(){
+Task.prototype.toString = function(){
 	return this.issuer + " " + this.id + " " + this.details;
 };
 
 
-module.exports = CalendarEvent;
+module.exports = Task;
