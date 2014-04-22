@@ -67,19 +67,13 @@
       <h3 class="">Tasks</h3>
       <hr><br>
 
-<style>
-    #container {
-        position: absolute;
-        left: 35%;
-        width: 800px;
-    }
-</style>
 <div class="container" id="container">
-    <div class="col-md-5">
-                <label class="col-md-4" for="NewTask">New Task</label>
-                <div class="col-md-5">
+    <div class="col-md-9">
+                <label for="NewTask">New Task</label>
+                <div>
                     <input id="NewTask" type="text">
                 </div>
+                <br>
                 <button id="submit" onclick="submit()" class="btn btn btn-primary">
                     <script>
                         function submit() {
@@ -100,7 +94,7 @@
                 </button>
     </div>
 </div>
-      <hr><hr>
+      <br><br>
 
       <div class="table-responsive">
         <table class="table table-bordered table-highlight table-hover" id="tasktable">
