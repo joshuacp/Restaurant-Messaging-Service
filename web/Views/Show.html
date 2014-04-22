@@ -75,38 +75,13 @@
             </tr>
           </thead>
 
-          <tbody>
-
-          </tbody>
+          <tbody></tbody>
 
           <script type="text/javascript">
             //var tasks = new [];
             //var task;
-            //task.Details = "mop floor";
-            //task.Issuer = "Josh";
-            //task.Status = "complete";
             //tasks.append(task);
             var tbody = $('tbody');
-            /*var tbl=document.createElement('table');
-
-            var thead = document.createElement('thead');
-            var tr1 = document.createElement('tr');
-            var thDetails = document.createElement('th');
-            thDetails.appendChild(document.createTextNode("Details"));
-
-            var thIssuer = document.createElement('th');
-            thIssuer.appendChild(document.createTextNode("Issuer"));
-
-            var thStatus = document.createElement('th');
-            thStatus.appendChild(document.createTextNode("Status"));
-            tr1.appendChild(thDetails);
-            tr1.appendChild(thIssuer);
-            tr1.appendChild(thStatus);
-            thead.appendChild(tr1);
-            tbl.appendChild(thead);*/
-
-            //var taskTable = $('#tasktable');
-            //var tbdy=document.createElement('tbody');
             //foreach(Task task in tasks){
               var tr=document.createElement('tr');
 
@@ -121,13 +96,15 @@
               var tdStatus=document.createElement('td');
               var checkbox = document.createElement("INPUT");
               checkbox.setAttribute("type", "checkbox");
+              if(true){
+                checkbox.setAttribute("checked", true);
+              }
               tdStatus.appendChild(checkbox);
-              tdStatus.appendChild(document.createTextNode("complete"))
+              tdStatus.appendChild(document.createTextNode(" Complete"))
               tr.appendChild(tdStatus)
 
               tbody.append(tr);
             //}
-            //taskTable.appendChild(tbdy);
           </script>
 
         </table>
