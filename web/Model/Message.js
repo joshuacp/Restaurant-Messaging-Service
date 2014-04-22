@@ -11,46 +11,46 @@ function Message(name,id,message,type,time) {
 }
 
 
-Person.prototype.setName = function(name) {
+Message.prototype.setName = function(name) {
 	this.name = name;
 };
 
-Person.prototype.setID = function(id) {
+Message.prototype.setID = function(id) {
 	this.id = id;
 };
 
-Person.prototype.setType = function(type){
+Message.prototype.setType = function(type){
 	this.type = type;
 };
 
-Person.prototype.setTime = function(time){
+Message.prototype.setTime = function(time){
 	this.time = time;
 };
 
-Person.prototype.setMessage = function(message){
+Message.prototype.setMessage = function(message){
 	this.message = message;
 };
 
-Person.prototype.getTime = function(){
+Message.prototype.getTime = function(){
 	return this.time;
 };
 
-Person.prototype.getMessage = function(){
+Message.prototype.getMessage = function(){
 	return this.message;
 };
 
-Person.prototype.getType = function(){
+Message.prototype.getType = function(){
 	return this.type;
 };
 
-Person.prototype.getID = function() {
+Message.prototype.getID = function() {
 	return id;
 };
 
-Person.prototype.getName = function() {
+Message.prototype.getName = function() {
 	return name;
 };
 
-Person.prototype.toString = function(){
+Message.prototype.toString = function(){
 	return this.name + " " + this.id + " " + this.password;
 };

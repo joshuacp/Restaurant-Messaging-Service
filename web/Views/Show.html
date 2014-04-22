@@ -6,6 +6,7 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="../../Model/Task.js"></script>
+<script src="../../Model/Message.js"></script>
 <script src="../Scripts/Communication/Communication.js"></script>
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
@@ -64,9 +65,9 @@
               <input id="NewMessage" type="text">
           </div>
           <br>
-          <button id="submit" onclick="submit()" class="btn btn btn-primary">
+          <button id="submitMessage" onclick="submitMessage()" class="btn btn btn-primary">
             <script>
-              function submit() {
+              function submitMessage() {
                 var com = new Communication();
                 var message = new Message();
                 console.log($('#NewMessage').val());
@@ -137,9 +138,9 @@
               <input id="NewTask" type="text">
           </div>
           <br>
-          <button id="submit" onclick="submit()" class="btn btn btn-primary">
+          <button id="submitTask" onclick="submitTask()" class="btn btn btn-primary">
             <script>
-              function submit() {
+              function submitTask() {
                 var com = new Communication();
                 var task = new Task();
                 console.log($('#NewTask').val());
@@ -179,7 +180,7 @@
             }
 
             var tbody = $('tbody');
-            //foreach(Task task in tasks){
+            foreach(Task task in tasks){
               var tr=document.createElement('tr');
 
               var tdDetails=document.createElement('td');
@@ -201,7 +202,7 @@
               tr.appendChild(tdStatus)
 
               tbody.append(tr);
-            //}
+            }
           </script>
 
         </table>
