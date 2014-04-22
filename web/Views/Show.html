@@ -173,36 +173,41 @@
           <tbody></tbody>
 
           <script type="text/javascript">
+          $( document ).ready(function() {
             var com = new Communication();
             var getter = com.doGet("/get/tasks");
+            tasks = [];
             if(getter != null){
-              var tasks = JSON.parse(getter);
-            }
+              tasks = JSON.parse(getter);
 
-            var tbody = $('tbody');
-            foreach(Task task in tasks){
-              var tr=document.createElement('tr');
+              var tbody = $('tbody');
+              for(var i = 0; i < tasks.size; i++)
+              {
+                var task = tasks[i];
+                var tr=document.createElement('tr');
 
-              var tdDetails=document.createElement('td');
-              tdDetails.appendChild(document.createTextNode("task.Details"))
-              tr.appendChild(tdDetails)
+                var tdDetails=document.createElement('td');
+                tdDetails.appendChild(document.createTextNode("task.Details"))
+                tr.appendChild(tdDetails)
 
-              var tdIssuer=document.createElement('td');
-              tdIssuer.appendChild(document.createTextNode("task.Issuer"));
-              tr.appendChild(tdIssuer);
+                var tdIssuer=document.createElement('td');
+                tdIssuer.appendChild(document.createTextNode("task.Issuer"));
+                tr.appendChild(tdIssuer);
 
-              var tdStatus=document.createElement('td');
-              var checkbox = document.createElement("INPUT");
-              checkbox.setAttribute("type", "checkbox");
-              if(task.completed){
-                checkbox.setAttribute("checked", true);
+                var tdStatus=document.createElement('td');
+                var checkbox = document.createElement("INPUT");
+                checkbox.setAttribute("type", "checkbox");
+                if(task.completed){
+                  checkbox.setAttribute("checked", true);
+                }
+                tdStatus.appendChild(checkbox);
+                tdStatus.appendChild(document.createTextNode("  Complete"))
+                tr.appendChild(tdStatus)
+
+                tbody.append(tr);
               }
-              tdStatus.appendChild(checkbox);
-              tdStatus.appendChild(document.createTextNode("  Complete"))
-              tr.appendChild(tdStatus)
-
-              tbody.append(tr);
             }
+          });
           </script>
 
         </table>
