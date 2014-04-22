@@ -5,6 +5,8 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../../Model/Task.js"></script>
+<script src="../Scripts/Communication/Communication.js"></script>
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
 
@@ -65,6 +67,41 @@
       <h3 class="">Tasks</h3>
       <hr><br>
 
+<style>
+    #container {
+        position: absolute;
+        left: 35%;
+        width: 800px;
+    }
+</style>
+<div class="container" id="container">
+    <div class="col-md-5">
+                <label class="col-md-4" for="NewTask">New Task</label>
+                <div class="col-md-5">
+                    <input id="NewTask" type="text">
+                </div>
+                <button id="submit" onclick="submit()" class="btn btn btn-primary">
+                    <script>
+                        function submit() {
+                            var com = new Communication();
+                            var task = new Task();
+                            console.log($('#NewTask').val());
+
+                            task.Details = $('#NewTask').val();
+                            task.Complete = false;
+                            console.log(task);
+                            com.doPost("/create/task", JSON.stringify(task),"Post",function(success){
+                                console.log("SUCCESS");
+                            });
+                            console.log('done');
+                        }
+                    </script>
+                    Create Task
+                </button>
+    </div>
+</div>
+      <hr><hr>
+
       <div class="table-responsive">
         <table class="table table-bordered table-highlight table-hover" id="tasktable">
           <thead>
@@ -78,29 +115,28 @@
           <tbody></tbody>
 
           <script type="text/javascript">
-            //var tasks = new [];
-            //var task;
-            //tasks.append(task);
+            var com = new Communication();
+            var tasks = JSON.parse(com.doGet("/get/tasks"));
             var tbody = $('tbody');
             //foreach(Task task in tasks){
               var tr=document.createElement('tr');
 
               var tdDetails=document.createElement('td');
-              tdDetails.appendChild(document.createTextNode("mop floor"))
+              tdDetails.appendChild(document.createTextNode("task.Details"))
               tr.appendChild(tdDetails)
 
               var tdIssuer=document.createElement('td');
-              tdIssuer.appendChild(document.createTextNode("josh"));
+              tdIssuer.appendChild(document.createTextNode("task.Issuer"));
               tr.appendChild(tdIssuer);
 
               var tdStatus=document.createElement('td');
               var checkbox = document.createElement("INPUT");
               checkbox.setAttribute("type", "checkbox");
-              if(true){
+              if(task.Status){
                 checkbox.setAttribute("checked", true);
               }
               tdStatus.appendChild(checkbox);
-              tdStatus.appendChild(document.createTextNode(" Complete"))
+              tdStatus.appendChild(document.createTextNode("  Complete"))
               tr.appendChild(tdStatus)
 
               tbody.append(tr);
