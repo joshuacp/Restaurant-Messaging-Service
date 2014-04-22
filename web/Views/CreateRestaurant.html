@@ -2,26 +2,65 @@
 <script src="../Model/Restaurant.js"></script>
 <script src="../Scripts/Communication/Communication.js"></script>
 
-<div class="row">
+<link href="../../Content/app.css" rel="stylesheet" type="text/css" /><!-- -->
+<link href="../../Content/bootstrap.css" rel="stylesheet" type="text/css" /><!-- -->
+<link href="../../Content/bootstrap.min.css" rel="stylesheet" type="text/css" /><!-- -->
+<link href="../../Content/Site.css" rel="stylesheet" type="text/css" /><!-- -->
+
+<style>
+    #container {
+        position: absolute;
+        left: 35%;
+        top: 30%;
+        height: 600px;
+        width: 800px;
+    }
+</style>
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Home/Show">Shift Link</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/Home/Show">Home</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="container">
     <h3>Please Enter a Restaurant Name and Password</h3>
+    <br><br>
         <div>
             <label class="col-md-2" for="Restaurant">Restaurant</label>
             <div class="col-md-5">
                 <input id="Restaurant" type="text">
             </div>
         </div>
+    <br><br>
         <div>
             <label class="col-md-2" for="Password">Password</label>
             <div class="col-md-5">
                 <input id="Password" type="password">
             </div>
         </div>
+    <br><br>
         <div>
             <label class="col-md-2" for="Password">Password</label>
             <div class="col-md-5">
                 <input id="Password2" type="password">
             </div>
         </div>
+    <br><br>
+    <div class="col-md-7 col-md-push-2">
         <button id="submit" onclick="submit()" class="btn btn btn-primary">
             <script>
                 function submit() {
@@ -45,7 +84,9 @@
                     }
                 }
             </script>
-            Log In
+            Create
         </button>
-
+    </div>
 </div>
+
+<footer class="text-center">&copy; 2014 - Shift Link, Inc.</footer>
