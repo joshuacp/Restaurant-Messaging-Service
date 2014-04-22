@@ -173,7 +173,11 @@
 
           <script type="text/javascript">
             var com = new Communication();
-            var tasks = JSON.parse(com.doGet("/get/tasks"));
+            var getter = com.doGet("/get/tasks");
+            if(getter != null){
+              var tasks = JSON.parse(getter);
+            }
+
             var tbody = $('tbody');
             //foreach(Task task in tasks){
               var tr=document.createElement('tr');
