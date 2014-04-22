@@ -38,18 +38,18 @@
 
 <div class="container" id="container">
     <div class="col-md-5">
-        <h3>Please Log In, or <a href="#">Register</a></h3>
+        <h3>Please Join a Restaurant, or <a href="/Views/CreateRestaurant.html">Register</a></h3>
             <div>
-                <label class="col-md-4" for="UserName">UserName</label>
+                <label class="col-md-4" for="RestaurantName">Restaurant</label>
                 <div class="col-md-5">
-                    <input id="UserName" type="text">
+                    <input id="RestaurantName" type="text">
                 </div>
             </div>
             <br><br>
             <div>
-                <label class="col-md-4" for="Password">Password</label>
+                <label class="col-md-4" for="RestaurantPassword">Password</label>
                 <div class="col-md-5">
-                    <input id="Password" type="password">
+                    <input id="RestaurantPassword" type="RestaurantPassword">
                 </div>
             </div>
             <br><br>
@@ -59,11 +59,11 @@
                         function submit() {
                             var com = new Communication();
                             var restaurant = new Restaurant();
-                            console.log($('#UserName').val());
+                            console.log($('#RestaurantName').val());
                             console.log(restaurant);
 
-                            restaurant.name = $('#UserName').val();
-                            restaurant.password = $('#Password').val();
+                            restaurant.name = $('#RestaurantName').val();
+                            restaurant.RestaurantPassword = $('#RestaurantPassword').val();
                             console.log(restaurant);
                             com.doPost("/restaurant/join", JSON.stringify(restaurant),"Post",function(success){
                                 console.log("SUCCESS");
