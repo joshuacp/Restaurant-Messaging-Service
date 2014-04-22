@@ -28,13 +28,13 @@ TaskDAO.prototype.addTask = function(task){
 	});
 }
 
-TaskDAO.prototype.getTasks = function(callback) {
+TaskDAO.prototype.getTasks = function(resID,callback) {
 	var name = name;
 	MongoClient.connect(format("mongodb://%s:%s/task", this.getHost(), this.getPort()), function(err,db){
 		
 		if (err) console.log(err);
 		else{
-			 var cursor = db.collection('task').find({})
+			 var cursor = db.collection('task').find({"restaurantID":resID})
 			 cursor.toArray(function(err,obj){
 			 	console.log(obj);
 			 	callback(obj);

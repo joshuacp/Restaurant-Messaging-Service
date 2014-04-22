@@ -53,8 +53,12 @@ http.createServer(function(req, res) {
             validateCookies(req,res,function(r){
 
                 if(r){
+                    var u = new Person();
+                    var s = JSON.parse(getCookie(req,"user"));
+                    u.loadFromJSON(s);
                     var db = new Database();
-                    db.getTasks();
+                    console.log(u);
+                    res.end(JSON.stringify(db.getTasks(u.getRestaurantID())));
                 }
                 else{
 
@@ -337,45 +341,38 @@ processPost = function(request,response){
             });   
 
         }
-        else if(url == "/task/create"){
-            db.validateUser(p,function(returnValue){
+        else if(url == "/create/task"){
+            var u = new Person();
+            u.loadFromJSON(JSON.parse(getCookie(request,"user")));
+            console.log(u);
+            db.validateUser(u,function(returnValue){
                 console.log("User validated, trying to do stuff");
                 var userCookie = getCookie(request,"user");
                 if(userCookie == null)
                     response.end("http://localhost:44444/Views/Login.html");
                 if(returnValue){
 
-                    db.validateRestaurant(p,function(returnValue){
+                    console.log(returnValue);
+                    var t = new Task();
+                    console.log(body);
+                    var jT = JSON.parse(body);
+                    console.log(jT);
+                    console.log(t);
                     
-                        if(returnValue){
-                            //response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
-
-                            db.getRestaurantID(p,function(returnValue){
-
-                                console.log(returnValue);
-                                var t = new Task();
-                                var jT = JSON.parse(userCookie);
-                                console.log(jT);
-                                console.log(jT['issuer'] + " " + jU['details'] + " " + p.getID());
-                                t.loadFromJSON(jT);
-                                t.setRestaurantID(returnValue);
-                                console.log(t.getName() + " " + t.getPassword());
-                                db.addTask(t);
-                                /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                                response.end("http://localhost:44444/Views/Show.html");*/
-                                // set happy headers?
-                            
-                            })
-
-                        }
-                        else
-                            console.log("BAD");
-
-                    });
-
-
-                   /**/
+                    t.loadFromJSON(jT);
+                    t.setRestaurantID(u.getRestaurantID());
+                    t.setIssuer(u.getName());
+                    console.log(t);
+                    //console.log(ta.getName() + " " + ta.getPassword());
+                    db.addTask(t);
+                    /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
+                    response.end("http://localhost:44444/Views/Show.html");*/
+                    // set happy headers?
+                    response.end();
                 }
+                else
+                    console.log("BAD");
+                
             }); 
 
         }

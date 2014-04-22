@@ -1,7 +1,7 @@
 
 var loadJSON = require("./loadJSON.js");
 
-function Task(issuer,id,restaurantID,details,type,date) {
+function Task(issuer,id,restaurantID,details,completed,date) {
     
     this.issuer = issuer;
     this.id = id; 
@@ -12,7 +12,7 @@ function Task(issuer,id,restaurantID,details,type,date) {
 
 }
 
-Task.protocompleted= loadJSON.prototype;
+Task.prototype = loadJSON.prototype;
 
 Task.prototype.setDetails = function(password){
 	this.details = details;

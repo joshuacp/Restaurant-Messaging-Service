@@ -65,10 +65,10 @@ Database.prototype.addTask = function(task,callback){
 }
 
 
-Database.prototype.getTasks = function(task,callback){
+Database.prototype.getTasks = function(restID,callback){
 
 	taskDAO = new TaskDAO();
-	taskDAO.getTasks(function(response){
+	taskDAO.getTasks(restID,function(response){
 		console.log('returned to ID?: ' + response);
 		if (typeof callback=="function") callback(response);
 	});

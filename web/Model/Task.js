@@ -1,5 +1,5 @@
 
-function Task(issuer,id,restaurantID,details,type,date) {
+function Task(issuer,id,restaurantID,details,completed,date) {
     
     this.issuer = issuer;
     this.id = id; 
