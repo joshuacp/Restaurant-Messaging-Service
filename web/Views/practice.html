@@ -58,10 +58,69 @@
   </ul>
   <div class="tab-content stacked-content">
 
-    <div class="tab-pane fade" id="message-tab">
+    <div class="tab-pane fade active in" id="message-tab">
       <h3>Messages</h3>
       <hr><br>
-      <body>hello</body>
+     <div class="container" id="container">
+        <div class="col-md-9">
+          <label for="NewMessage">New Message</label>
+          <div>
+              <input id="NewMessage" type="text">
+          </div>
+          <br>
+          <button id="submitMessage" onclick="submitMessage()" class="btn btn btn-primary">
+            <script>
+              function submitMessage() {
+                var com = new Communication();
+                var message = new Message();
+                console.log($('#NewMessage').val());
+
+                message.message = $('#NewMessage').val();
+                console.log(message);
+                com.doPost("/create/message", JSON.stringify(message),"Post",function(success){
+                    console.log("SUCCESS");
+                });
+                console.log('done');
+              }
+            </script>
+              Create Message
+          </button>
+        </div>
+      </div>
+      <br><br>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-highlight table-hover" id="messagetable">
+          <thead>
+            <tr>
+              <th class="col-md-3">From</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+
+          <tbody></tbody>
+
+          <script type="text/javascript">
+            var com = new Communication();
+            //var messages = JSON.parse(com.doGet("/get/messages"));
+            var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
+            //foreach(Task message in mesaages){
+              var tr=document.createElement('tr');
+
+              var tdName=document.createElement('td');
+              tdName.appendChild(document.createTextNode("message.Details"))
+              tr.appendChild(tdName)
+
+              var tdMessage=document.createElement('td');
+              tdMessage.appendChild(document.createTextNode("message.Issuer"));
+              tr.appendChild(tdMessage);
+
+              tbody.appendChild(tr);
+            //}
+          </script>
+
+        </table>
+      </div>
   	</div>
 
   	<div class="tab-pane fade active" id="calendar-tab">
@@ -223,7 +282,7 @@
 
               console.log(tasks);
               console.log(tasks.length);
-              var tbody = $('tbody');
+              var tbody = document.getElementById('tasktable').getElementsByTagName('tbody')[0];
               console.log(tbody);
               for(var i = 0; i < tasks.length; i++)
               {
@@ -250,7 +309,7 @@
                 tdStatus.appendChild(document.createTextNode("  Complete"))
                 tr.appendChild(tdStatus)
 
-                tbody.append(tr);
+                tbody.appendChild(tr);
               }
             }
           });
