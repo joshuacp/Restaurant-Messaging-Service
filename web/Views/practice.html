@@ -15,149 +15,107 @@
 <script src='../../fullcalendar-1.6.4/fullcalendar/fullcalendar.min.js'></script>
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
-
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/Home/Show">Shift Link</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="/Home/Show">Home</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-  <h1>Welcome!</h1>
-
-  <ul class="nav nav-tabs">
-    <li class="active">
-      <a href="#message-tab" data-toggle="tab">
-        <i class="fa fa-envelope"></i>
-        &nbsp;&nbsp;MSG
-      </a>
-    </li>
-    <li>
-      <a href="#calendar-tab" data-toggle="tab">
-        <i class="fa fa-calendar"></i>
-        &nbsp;&nbsp;Calendar
-      </a>
-    </li>
-    <li>
-      <a href="#task-tab" data-toggle="tab">
-        <i class="fa fa-check-square-o"></i>
-        &nbsp;&nbsp;Tasks
-      </a>
-    </li>
-  </ul>
-  <div class="tab-content stacked-content">
-
-    <div class="tab-pane fade active in" id="message-tab">
-      <h3>Messages</h3>
-      <hr><br>
-
-
-      <br><br>
-
-
-
-    </div>
-
-    <div class="tab-pane fade" id="calendar-tab">
-      <h3>Calendar</h3>
-      <hr><br>
-
 <script>
 
-  $(document).ready(function() {
-  
-  console.log('here');
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-    
-    $('#calendar1').fullCalendar({
-      editable: true,
-      events: [
-        {
-          title: 'All Day Event',
-          start: new Date(y, m, 1)
-        },
-        {
-          title: 'Long Event',
-          start: new Date(y, m, d-5),
-          end: new Date(y, m, d-2)
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: new Date(y, m, d-3, 16, 0),
-          allDay: false
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: new Date(y, m, d+4, 16, 0),
-          allDay: false
-        },
-        {
-          title: 'Meeting',
-          start: new Date(y, m, d, 10, 30),
-          allDay: false
-        },
-        {
-          title: 'Lunch',
-          start: new Date(y, m, d, 12, 0),
-          end: new Date(y, m, d, 14, 0),
-          allDay: false
-        },
-        {
-          title: 'Birthday Party',
-          start: new Date(y, m, d+1, 19, 0),
-          end: new Date(y, m, d+1, 22, 30),
-          allDay: false
-        },
-        {
-          title: 'Click for Google',
-          start: new Date(y, m, 28),
-          end: new Date(y, m, 29),
-          url: 'http://google.com/'
-        }
-      ]
-    });
-    
-  });
+	$(document).ready(function() {
+	
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+		
+		var calendar = $('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			selectable: true,
+			selectHelper: true,
+			select: function(start, end, allDay) {
+				var title = prompt('Event Title:');
+				if (title) {
+					calendar.fullCalendar('renderEvent',
+						{
+							title: title,
+							start: start,
+							end: end,
+							allDay: allDay
+						},
+						true // make the event "stick"
+					);
+				}
+				calendar.fullCalendar('unselect');
+			},
+			editable: true,
+			events: [
+				{
+					title: 'All Day Event',
+					start: new Date(y, m, 1)
+				},
+				{
+					title: 'Long Event',
+					start: new Date(y, m, d-5),
+					end: new Date(y, m, d-2)
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d-3, 16, 0),
+					allDay: false
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d+4, 16, 0),
+					allDay: false
+				},
+				{
+					title: 'Meeting',
+					start: new Date(y, m, d, 10, 30),
+					allDay: false
+				},
+				{
+					title: 'Lunch',
+					start: new Date(y, m, d, 12, 0),
+					end: new Date(y, m, d, 14, 0),
+					allDay: false
+				},
+				{
+					title: 'Birthday Party',
+					start: new Date(y, m, d+1, 19, 0),
+					end: new Date(y, m, d+1, 22, 30),
+					allDay: false
+				},
+				{
+					title: 'Click for Google',
+					start: new Date(y, m, 28),
+					end: new Date(y, m, 29),
+					url: 'http://google.com/'
+				}
+			]
+		});
+		
+	});
 
 </script>
 <style>
 
-  body {
-    margin-top: 40px;
-    text-align: center;
-    font-size: 14px;
-    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-    }
+	body {
+		margin-top: 40px;
+		text-align: center;
+		font-size: 14px;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		}
 
-  #calendar1 {
-    width: 900px;
-    margin: 0 auto;
-    }
+	#calendar {
+		width: 900px;
+		margin: 0 auto;
+		}
 
 </style>
-
-
-	<div id='calendar1'></div>
-
-    </div>
-
-
-
-<footer class="text-center">&copy; 2014 - Shift Link, Inc.</footer>
+</head>
+<body>
+<div id='calendar'></div>
+</body>
+</html>

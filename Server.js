@@ -283,15 +283,18 @@ processPost = function(request,response){
             });
         }
         else if(url == "/restaurant/join"){
+            
+            console.log("User validated, trying to do stuff");
+            var userCookie = getCookie(request,"user");
+            if(userCookie == null)
+                response.end("http://localhost:44444/Views/Login.html");
+            p.loadFromJSON(JSON.parse(userCookie));
             db.validateUser(p,function(returnValue){
-                console.log("User validated, trying to do stuff");
-                var userCookie = getCookie(request,"user");
-                if(userCookie == null)
-                    response.end("http://localhost:44444/Views/Login.html");
+                console.log(returnValue);
                 if(returnValue){
 
                     db.validateRestaurant(p,function(returnValue){
-                    
+                        console.log(returnValue);
                         if(returnValue){
                             //response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
 

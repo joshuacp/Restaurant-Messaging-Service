@@ -133,18 +133,37 @@
 
 
 
+<div id='calendar'></div>
 
 <script>
 
   $(document).ready(function() {
   
-  console.log('here');
+  console.log('here')
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
     
-    $('#calendar1').fullCalendar({
+    $('#calendar').fullCalendar({
+      
+      selectable: true,
+      selectHelper: true,
+      select: function(start, end, allDay) {
+        var title = prompt('Event Title:');
+        if (title) {
+          calendar.fullCalendar('renderEvent',
+            {
+              title: title,
+              start: start,
+              end: end,
+              allDay: allDay
+            },
+            true // make the event "stick"
+          );
+        }
+        calendar.fullCalendar('unselect');
+      },
       editable: true,
       events: [
         {
@@ -206,7 +225,7 @@
     font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
     }
 
-  #calendar1 {
+  #calendar {
     width: 900px;
     margin: 0 auto;
     }
@@ -214,7 +233,6 @@
 </style>
 
 
-<div id='calendar1'></div>
 
 
       <br>
