@@ -58,7 +58,17 @@ http.createServer(function(req, res) {
                     u.loadFromJSON(s);
                     var db = new Database();
                     console.log(u);
-                    res.end(JSON.stringify(db.getTasks(u.getRestaurantID())));
+                    db.getTasks(u.getRestaurantID(),function(ret){
+                        console.log("BACK: " + ret);
+                        var a = [];
+                        if(ret == null || ret == ""){
+                            console.log("EMPTY: " + JSON.stringify(a));
+                            res.end(JSON.stringify(a));
+                            return;
+                        }
+                        res.end(JSON.stringify(ret));
+                    });
+                    
                 }
                 else{
 
