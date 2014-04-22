@@ -38,3 +38,16 @@ Communication.prototype.doGet = function (url) {
         }
     });
 }
+
+Communication.prototype.doGetSynch = function (url,callback) {
+    var newModel;
+    $.ajax({
+        url: url,
+        type: 'GET',
+        async: 'false',
+        success: function (result) {
+           console.log(result);
+           callback(result);
+        }
+    });
+}

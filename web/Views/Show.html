@@ -173,16 +173,21 @@
           <tbody></tbody>
 
           <script type="text/javascript">
-          $( document ).ready(function() {
             var com = new Communication();
-            var getter = com.doGet("/get/tasks");
-            tasks = [];
-            if(getter != null){
-              tasks = JSON.parse(getter);
+            com.doGetSynch("/get/tasks",function(tasks){
+            console.log("IN DOC");
+            console.log(tasks);
+            //tasks = [];
+            if(tasks != null){
+              tasks = JSON.parse(tasks);
 
+              console.log(tasks);
+              console.log(tasks.length);
               var tbody = $('tbody');
-              for(var i = 0; i < tasks.size; i++)
+              for(var i = 0; i < tasks.length; i++)
               {
+                console.log(i);
+                console.log("IN");
                 var task = tasks[i];
                 var tr=document.createElement('tr');
 
