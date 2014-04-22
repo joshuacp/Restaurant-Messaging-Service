@@ -65,66 +65,73 @@
       <h3 class="">Tasks</h3>
       <hr><br>
 
+      <div class="table-responsive">
+        <table class="table table-bordered table-highlight table-hover" id="tasktable">
+          <thead>
+            <tr>
+              <th>Details</th>
+              <th>Issuer</th>
+              <th>Status</th>
+            </tr>
+          </thead>
 
-<div class="table-responsive" id="tasktable">
-  <table class="table table-bordered table-highlight table-hover">
-    <thead>
-      <tr>
-        <th>Details</th>
-        <th>Issuer</th>
-        <th>Status</th>
-      </tr>
-    </thead>
+          <tbody>
 
-    <script type="text/javascript">
-      var taskTable = $('tasktable');
-      var tbdy=document.createElement('tbody');
-      foreach(Task task in tasks){
-        var tr=document.createElement('tr');
+          </tbody>
 
-        var tdDetails=document.createElement('td');
-        td.appendChild(document.createTextNode(task.Details))
-        tr.appendChild(td)
+          <script type="text/javascript">
+            //var tasks = new [];
+            //var task;
+            //task.Details = "mop floor";
+            //task.Issuer = "Josh";
+            //task.Status = "complete";
+            //tasks.append(task);
+            var tbody = $('tbody');
+            /*var tbl=document.createElement('table');
 
-        var tdIssuer=document.createElement('td');
-        td.appendChild(document.createTextNode(task.Issuer))
-        tr.appendChild(td)
+            var thead = document.createElement('thead');
+            var tr1 = document.createElement('tr');
+            var thDetails = document.createElement('th');
+            thDetails.appendChild(document.createTextNode("Details"));
 
-        var tdStatus=document.createElement('td');
-        td.appendChild(document.createTextNode(task.Status))
-        tr.appendChild(td)
+            var thIssuer = document.createElement('th');
+            thIssuer.appendChild(document.createTextNode("Issuer"));
 
-        tbdy.appendChild(tr);
-      }
-      taskTable.appendChild(tbdy);
-    </script>
+            var thStatus = document.createElement('th');
+            thStatus.appendChild(document.createTextNode("Status"));
+            tr1.appendChild(thDetails);
+            tr1.appendChild(thIssuer);
+            tr1.appendChild(thStatus);
+            thead.appendChild(tr1);
+            tbl.appendChild(thead);*/
 
-    <tbody>
-      @foreach (var tenant in Model)
-      {
-        <tr data-tenantid="@tenant.Id">
-          <td><a href="@Url.Action(MVC.Tenant.Show(tenant.Id))">@tenant.Name</a></td>
-          <td>@Html.LabelForTenantType(tenant.GetType())</td>
-          <td>@Html.LabelForTenantStatus(tenant.Status)</td>
-          <td>
-            <a href="@Url.Action(MVC.Tenant.Show(tenant.Id))" class="btn btn-xs btn-secondary" title="Edit Customer Info">
-              <i class="fa fa-pencil"></i>
-            </a>
-            <a class="btn btn-xs btn-remove" style="float: right" data-id="@tenant.Id">
-              <i class="fa fa-power-off"></i><!--maybe fa-retweet-->
-            </a>
-          </td>
-        </tr>
-      }
-    </tbody>
+            //var taskTable = $('#tasktable');
+            //var tbdy=document.createElement('tbody');
+            //foreach(Task task in tasks){
+              var tr=document.createElement('tr');
 
-  </table>
-</div>
-@section Scripts {
-  @Html.RequireJsModule("app/tenant/List")
-}
+              var tdDetails=document.createElement('td');
+              tdDetails.appendChild(document.createTextNode("mop floor"))
+              tr.appendChild(tdDetails)
 
+              var tdIssuer=document.createElement('td');
+              tdIssuer.appendChild(document.createTextNode("josh"));
+              tr.appendChild(tdIssuer);
 
+              var tdStatus=document.createElement('td');
+              var checkbox = document.createElement("INPUT");
+              checkbox.setAttribute("type", "checkbox");
+              tdStatus.appendChild(checkbox);
+              tdStatus.appendChild(document.createTextNode("complete"))
+              tr.appendChild(tdStatus)
+
+              tbody.append(tr);
+            //}
+            //taskTable.appendChild(tbdy);
+          </script>
+
+        </table>
+      </div>
     </div>
 
   </div>
