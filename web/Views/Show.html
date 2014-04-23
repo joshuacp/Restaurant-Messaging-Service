@@ -77,7 +77,6 @@
                 console.log($('#NewMessage').val());
 
                 message.message = $('#NewMessage').val();
-                document.getElementById("NewMessage").value = "";
 
                 //Temporary new message create
                 var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
@@ -104,6 +103,7 @@
 
                 tbody.appendChild(tr);
 
+                document.getElementById("NewMessage").value = "";//Clear textarea
 
                 console.log(message);
                 com.doPost("/create/message", JSON.stringify(message),"Post",function(success){
