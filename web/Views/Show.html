@@ -81,7 +81,7 @@
                 console.log(message);
                 com.doPost("/create/message", JSON.stringify(message),"Post",function(success){
                     console.log("SUCCESS");
-                    $('#NewMessage').val("");
+                    $('#NewMessage').val() = "";
                 });
                 console.log('done');
               }
