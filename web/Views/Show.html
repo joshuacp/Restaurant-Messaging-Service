@@ -74,11 +74,10 @@
               function submitMessage() {
                 var com = new Communication();
                 var message = new Message();
-                messageVal = $('#NewMessage').val();
-                if(messageVal != ""){
-                  console.log(messageVal);
-
-                  message.message = messageVal;
+                message.message = $('#NewMessage').val();
+                message.issuer = "josh";
+                if(message.message != ""){
+                  console.log(message.message);
 
                   //Temporary new message create
                   var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
@@ -86,11 +85,11 @@
                   var tr=document.createElement('tr');
 
                   var tdDetails=document.createElement('td');
-                  tdDetails.appendChild(document.createTextNode("task.issuer"))
+                  tdDetails.appendChild(document.createTextNode(message.issuer))
                   tr.appendChild(tdDetails)
 
                   var tdIssuer=document.createElement('td');
-                  tdIssuer.appendChild(document.createTextNode(messageVal));
+                  tdIssuer.appendChild(document.createTextNode(message.message));
                   tr.appendChild(tdIssuer);
 
                   var tdStatus=document.createElement('td');
@@ -127,11 +126,11 @@
 
                       $(this).parent().parent().remove();//UI delete message
                       //console.log(buttons[$(this).attr('ids')]);
-                      console.log(messages[index]);
-                       com.doPost("/delete/message", JSON.stringify(messages[index]))
+                      console.log(message);
+                       com.doPost("/delete/message", JSON.stringify(message))
                     };
                   }
-                  
+
                 }
               }
             </script>
@@ -166,15 +165,15 @@
               {
                 console.log(i);
                 console.log("IN");
-                var task = messages[i];
+                var message = messages[i];
                 var tr=document.createElement('tr');
 
                 var tdDetails=document.createElement('td');
-                tdDetails.appendChild(document.createTextNode(task.issuer))
+                tdDetails.appendChild(document.createTextNode(message.issuer))
                 tr.appendChild(tdDetails)
 
                 var tdIssuer=document.createElement('td');
-                tdIssuer.appendChild(document.createTextNode(task.message));
+                tdIssuer.appendChild(document.createTextNode(message.message));
                 tr.appendChild(tdIssuer);
 
                 var tdStatus=document.createElement('td');
@@ -342,9 +341,10 @@
               function submitTask() {
                 var com = new Communication();
                 var task = new Task();
-                var taskDetails = $('#NewTask').val();
-                if(taskDetails != ""){
-                  console.log(taskDetails);
+                task.details = $('#NewTask').val();
+                task.issuer = "josh";
+                if(task.details != ""){
+                  console.log(task.details);
 
                   //Create temporary task
                   var tbody = document.getElementById('tasktable').getElementsByTagName('tbody')[0];
@@ -352,11 +352,11 @@
                   var tr=document.createElement('tr');
 
                   var tdDetails=document.createElement('td');
-                  tdDetails.appendChild(document.createTextNode(taskDetails))
+                  tdDetails.appendChild(document.createTextNode(task.details))
                   tr.appendChild(tdDetails)
 
                   var tdIssuer=document.createElement('td');
-                  tdIssuer.appendChild(document.createTextNode("task.issuer"));
+                  tdIssuer.appendChild(document.createTextNode(task.issuer));
                   tr.appendChild(tdIssuer);
 
                   var tdStatus=document.createElement('td');
@@ -374,13 +374,26 @@
                   document.getElementById("NewTask").value = "";//Clear textarea
 
                   //submit
-                  task.details = taskDetails;
                   task.completed = false;
                   console.log(task);
                   com.doPost("/create/task", JSON.stringify(task),"Post",function(success){
                       console.log("SUCCESS");
                   });
                   console.log('done');
+
+                  var checks = $('.checkboxs');
+                  console.log(checks);
+                  for(var i = 0; i < checks.length; i++){
+                    console.log(checks[i]);
+                    checks[i].onchange = function(){
+                      console.log("CHECKED");
+                      //console.log(tasks);
+                      console.log($(this).attr('ids'));
+                      $(this).parent().parent().remove();
+
+                       com.doPost("/delete/task", JSON.stringify(task))
+                    };
+                  }
                 }
               }
             </script>
