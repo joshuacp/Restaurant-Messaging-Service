@@ -29,7 +29,7 @@ RestaurantDAO.prototype.addRestaurant = function(restaurant,callback){
 				
 				restaurant.setID(id);
 				db.collection('test').insert(restaurant, function(err, records) {
-					if (err) sys.puts (err);
+					if (err) console.log(err);
 					else
 						console.log("Record added as "+records[0]._id);
 					

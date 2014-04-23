@@ -13,7 +13,7 @@ function PersonDAO() {
 
 PersonDAO.prototype = DatabaseDAO.prototype;
 
-PersonDAO.prototype.addUser = function(user){
+PersonDAO.prototype.addUser = function(user,callback){
 	console.log('adduser');
 	MongoClient.connect(format("mongodb://%s:%s/test", this.getHost(), this.getPort()), function(err,db){
 		if (err) console.log(err);
@@ -22,6 +22,7 @@ PersonDAO.prototype.addUser = function(user){
 				if (err) sys.puts (err);
 				else
 					console.log("Record added as "+records[0]._id);
+				callback(true);
 			});
 		}
 

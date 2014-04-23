@@ -14,10 +14,12 @@ function Database() {
 
 }
 
-Database.prototype.addUser = function (user){
+Database.prototype.addUser = function (user,callback){
 
 	personDAO = new PersonDAO();
-	personDAO.addUser(user);
+	personDAO.addUser(user,function(ret){
+		callback(ret);
+	});
 }
 
 Database.prototype.editUser = function (user){

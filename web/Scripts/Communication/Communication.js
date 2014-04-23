@@ -1,6 +1,6 @@
 ﻿function Communication() {}
 
-Communication.prototype.doPost = function (url2, data2, type2,ret) {
+Communication.prototype.doPost = function (url2, data2, type2, ret) {
     returnValue = true;
     if(ret != null)
         returnValue = ret;
@@ -20,7 +20,8 @@ Communication.prototype.doPost = function (url2, data2, type2,ret) {
         success: function (result) {
             //console.log("YEAH");
             //console.log(result);
-            //console.log(JSON.parse(result).Location);
+            console.log("SUCCES");
+            console.log(result);
 
             if(result != "")
                 window.location = result;

@@ -169,7 +169,7 @@ function validateUserCookie(req,res,callback){
             callback(false);
         }
         //console.log("R: " + returnValue);
-       // callback(returnValue);
+       callback(returnValue);
         
     })
 
@@ -178,7 +178,7 @@ function validateUserCookie(req,res,callback){
 }
 
 function validateCookies(req,res,callback){
-   // console.log("COOKIE");
+    console.log("COOKIE");
     var userCook = getCookie(req,'user');
    // console.log(userCook);
     if(userCook == null){
@@ -190,6 +190,7 @@ function validateCookies(req,res,callback){
     }
   //  console.log("ID: " + JSON.parse(userCook).restaurantID);
     if(JSON.parse(userCook).restaurantID == null){
+        console.log("SEND TO RESLOGIN");
         redirectTo(res,"/Views/LoginRestaurant.html");
         callback(false);
         res.end();
@@ -291,20 +292,32 @@ processPost = function(request,response){
         if(url == "/user/create"){
             var u = new Person();
             u.loadFromJSON(POST);
-            db.addUser(u);//validate user isn't repeat
-            response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
+            db.addUser(u,function(ret){
+                console.log("WE ACTUALLY RETURNED");
+            })
+                console.log("GOOD");
+            response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
             response.end("http://localhost:44444/Views/JoinRestaurant.html");
+            return;
+
+//validate user isn't repeat
+
 
         }
         else if(url == "/user/login"){
             var u = new Person();
+            console.log("LOGIN")
+
+            console.log(u);
             u.loadFromJSON(POST);
+            console.log(u);
             db.getUser(u,function(returnValue){
             
                 if(returnValue != null){
 
                     response.setHeader("Set-cookie", "user=" + JSON.stringify(returnValue) +";Path=/;");
                     console.log('back');
+                    
                     response.end("http://localhost:44444/Views/Show.html");
                 }
                 else
@@ -367,6 +380,8 @@ processPost = function(request,response){
             u.loadFromJSON(JSON.parse(getCookie(request,"user")));
             db.validateUser(u,function(returnValue){
               // console.log("Validate:"+returnValue);
+              var p = new Restaurant();
+              p.loadFromJSON(POST);
                 if(returnValue){
                     db.addRestaurant(p,function(cresponse){
                             
