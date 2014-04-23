@@ -148,6 +148,25 @@
 				},
 				selectable: true,
 				selectHelper: true,
+        eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+
+            /*alert(
+                event.title + " was moved " +
+                dayDelta + " days and " +
+                minuteDelta + " minutes."
+            );
+            console.log(event);
+            var calEvent = new CalendarEvent();
+            calEvent.title = event.title;
+            calEvent.start = event.start;
+            calEvent.end = event.end;
+            calEvent.allDay = allDay;
+            if (!confirm("Are you sure about this change?")) {
+                revertFunc();
+            }
+              //com.doPost("/edit/event", JSON.stringify(calEvent),"Post",false*/
+
+        },
 				select: function(start, end, allDay) {
 					var title = prompt('Event Title:');
 					if (title) {
@@ -174,7 +193,7 @@
             return false;
           });
 				},
-				editable: true,
+				editable: false,
 				events: JSON.parse(ret)
         //events: [{title:"All Day Event",start:"1922-04-01T06:00:00.000Z"}]
 			});
