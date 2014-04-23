@@ -75,6 +75,16 @@ Database.prototype.addTask = function(task,callback){
 }
 
 
+Database.prototype.deleteTask = function(task,callback){
+
+	taskDAO = new TaskDAO();
+	taskDAO.deleteTask(task,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
+}
+
+
 Database.prototype.getTasks = function(restID,callback){
 
 	taskDAO = new TaskDAO();

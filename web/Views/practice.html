@@ -109,13 +109,7 @@
             //foreach(Task message in mesaages){
               var tr=document.createElement('tr');
 
-              var tdName=document.createElement('td');
-              tdName.appendChild(document.createTextNode("message.Details"))
-              tr.appendChild(tdName)
 
-              var tdMessage=document.createElement('td');
-              tdMessage.appendChild(document.createTextNode("message.Issuer"));
-              tr.appendChild(tdMessage);
 
               tbody.appendChild(tr);
             //}
@@ -281,6 +275,9 @@
                 var tdStatus=document.createElement('td');
                 var checkbox = document.createElement("INPUT");
                 checkbox.setAttribute("type", "checkbox");
+
+                checkbox.setAttribute("class", "checkboxs");
+                checkbox.setAttribute("ids", i);
                 if(task.completed){
                   checkbox.setAttribute("checked", true);
                 }
@@ -290,6 +287,20 @@
 
                 tbody.appendChild(tr);
               }
+
+              var checks = $('.checkboxs');
+              console.log(checks);
+              for(var i = 0; i < checks.length; i++){
+                console.log(checks[i]);
+                checks[i].onchange = function(){
+                  console.log("CHECKED");
+                  //console.log(tasks);
+                  console.log($(this).attr('ids'));
+
+                   com.doPost("/delete/task", JSON.stringify(tasks[$(this).attr('ids')]))
+                };
+              }
+
             }
           });
           </script>

@@ -424,6 +424,41 @@ processPost = function(request,response){
             }); 
 
         }
+        else if(url == "/delete/task"){
+            var u = new Person();
+            u.loadFromJSON(JSON.parse(getCookie(request,"user")));
+           // console.log(u);
+            db.validateUser(u,function(returnValue){
+                console.log("User validated, trying to do stuff");
+                var userCookie = getCookie(request,"user");
+                if(userCookie == null)
+                    response.end("http://localhost:44444/Views/Login.html");
+                if(returnValue){
+
+                    console.log(returnValue);
+                    var t = new Task();
+                    console.log(body);
+                    var jT = JSON.parse(body);
+                    console.log(jT);
+                    console.log(t);
+                    
+                    t.loadFromJSON(jT);
+                    t.setRestaurantID(u.getRestaurantID());
+                    t.setIssuer(u.getName());
+                    console.log(t);
+                    //console.log(ta.getName() + " " + ta.getPassword());
+                    db.deleteTask(t);
+                    /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
+                    response.end("http://localhost:44444/Views/Show.html");*/
+                    // set happy headers?
+                    response.end();
+                }
+                else
+                    console.log("BAD");
+                
+            }); 
+
+        }
         else if(url == "/create/event"){
             var u = new Person();
             u.loadFromJSON(JSON.parse(getCookie(request,"user")));

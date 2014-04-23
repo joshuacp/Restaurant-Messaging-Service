@@ -28,6 +28,21 @@ TaskDAO.prototype.addTask = function(task){
 	});
 }
 
+TaskDAO.prototype.deleteTask = function(task){
+	console.log('deleteTask');
+	MongoClient.connect(format("mongodb://%s:%s/task", this.getHost(), this.getPort()), function(err,db){
+		if (err) console.log(err);
+		else{
+			db.collection('task').remove({ "restaurantID": task.getRestaurantID(), "details": task.getDetails()}, function(err, records) {
+				if (err) sys.puts (err);
+				else
+					console.log("Deleted");
+			});
+		}
+
+	});
+}
+
 TaskDAO.prototype.getTasks = function(resID,callback) {
 	var name = name;
 	MongoClient.connect(format("mongodb://%s:%s/task", this.getHost(), this.getPort()), function(err,db){
