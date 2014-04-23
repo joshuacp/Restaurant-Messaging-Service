@@ -11,6 +11,7 @@ var sys = require("sys"),
     Person = require("./DB/Person.js");
     Task = require("./DB/Task.js");
     CalendarEvent = require("./DB/CalendarEvent.js");
+    Message = require("./DB/Message.js");
     mime = require('mime');
     connect = require('connect');
     static = require('node-static');
@@ -88,6 +89,32 @@ http.createServer(function(req, res) {
                     var db = new Database();
                     console.log(u);
                     db.getCalendarEvents(u.getRestaurantID(),function(ret){
+                        console.log("BACK: " + ret);
+                        var a = [];
+                        if(ret == null || ret == ""){
+                            console.log("EMPTY: " + JSON.stringify(a));
+                            res.end(JSON.stringify(a));
+                            return;
+                        }
+                        res.end(JSON.stringify(ret));
+                    });
+                    
+                }
+                else{
+
+                }
+            })
+        }
+        else if(uri == "/get/messages"){
+            validateCookies(req,res,function(r){
+
+                if(r){
+                    var u = new Person();
+                    var s = JSON.parse(getCookie(req,"user"));
+                    u.loadFromJSON(s);
+                    var db = new Database();
+                    console.log(u);
+                    db.getMessages(u.getRestaurantID(),function(ret){
                         console.log("BACK: " + ret);
                         var a = [];
                         if(ret == null || ret == ""){
@@ -499,6 +526,42 @@ processPost = function(request,response){
                     console.log(calEvent);
                     //console.log(ta.getName() + " " + ta.getPassword());
                     db.addEvent(calEvent);
+                    /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
+                    response.end("http://"+host+":44444/Views/Show.html");*/
+                    // set happy headers?
+                    response.end();
+                }
+                else
+                    console.log("BAD");
+                
+            }); 
+
+        }
+        else if(url == "/create/message"){
+            var u = new Person();
+            u.loadFromJSON(JSON.parse(getCookie(request,"user")));
+           // console.log(u);
+            db.validateUser(u,function(returnValue){
+                console.log("User validated, trying to do stuff");
+                var userCookie = getCookie(request,"user");
+                if(userCookie == null)
+                    response.end("http://"+host+":44444/Views/Login.html");
+                if(returnValue){
+
+                    console.log(returnValue);
+                    var message = new Message();
+                    console.log(body);
+                    var jT = JSON.parse(body);
+                    console.log(jT);
+                    console.log(message);
+                    
+                    message.loadFromJSON(jT);
+                    message.setRestaurantID(u.getRestaurantID());
+                    //calEvent.setIssuer(u.getName());
+                    message.setIssuer(u.getName());
+                    console.log(message);
+                    //console.log(ta.getName() + " " + ta.getPassword());
+                    db.addMessage(message);
                     /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
                     response.end("http://"+host+":44444/Views/Show.html");*/
                     // set happy headers?

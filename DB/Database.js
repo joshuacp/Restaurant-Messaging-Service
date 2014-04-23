@@ -4,6 +4,7 @@ var	MongoClient = require('mongodb').MongoClient
   	RestaurantDAO = require('./RestaurantDAO.js');
   	TaskDAO = require('./TaskDAO.js');
   	CalendarDAO = require('./CalendarDAO.js');
+  	MessageDAO = require('./MessageDAO.js');
 
 var dbClass = this;
 
@@ -91,6 +92,24 @@ Database.prototype.getTasks = function(restID,callback){
 
 	taskDAO = new TaskDAO();
 	taskDAO.getTasks(restID,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
+}
+
+Database.prototype.getMessages = function(restID,callback){
+
+	messageDAO = new MessageDAO();
+	messageDAO.getMessages(restID,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
+}
+
+Database.prototype.addMessage = function(restID,callback){
+
+	messageDAO = new MessageDAO();
+	messageDAO.addMessage(restID,function(response){
 		console.log('returned to ID?: ' + response);
 		if (typeof callback=="function") callback(response);
 	});

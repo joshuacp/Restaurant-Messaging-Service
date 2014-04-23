@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container"id = "tabs">
   <h1>Welcome!</h1>
 
   <ul class="nav nav-tabs">
@@ -58,7 +58,7 @@
       </a>
     </li>
   </ul>
-  <div class="tab-content stacked-content">
+  <div class="tab-content stacked-content" >
 
     <div class="tab-pane fade active in" id="message-tab">
       <h3>Messages</h3>
@@ -79,6 +79,7 @@
                 console.log($('#NewMessage').val());
 
                 message.message = $('#NewMessage').val();
+
                 console.log(message);
                 com.doPost("/create/message", JSON.stringify(message),"Post",function(success){
                     console.log("SUCCESS");
@@ -105,15 +106,53 @@
 
           <script type="text/javascript">
             var com = new Communication();
-            //var messages = JSON.parse(com.doGet("/get/messages"));
-            var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
+            com.doGetSynch("/get/messages",function(messages){
+              var messages = JSON.parse(messages);
+              var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
             //foreach(Task message in mesaages){
               var tr=document.createElement('tr');
+              console.log("MESSAGES");
+              console.log(messages);
 
+              var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
+
+              for(var i = 0; i < messages.length; i++)
+              {
+                console.log(i);
+                console.log("IN");
+                var task = messages[i];
+                var tr=document.createElement('tr');
+
+                var tdDetails=document.createElement('td');
+                tdDetails.appendChild(document.createTextNode(task.message))
+                tr.appendChild(tdDetails)
+
+                var tdIssuer=document.createElement('td');
+                tdIssuer.appendChild(document.createTextNode(task.issuer));
+                tr.appendChild(tdIssuer);
+
+                /*var tdStatus=document.createElement('td');
+                var checkbox = document.createElement("INPUT");
+                checkbox.setAttribute("type", "checkbox");
+
+                checkbox.setAttribute("class", "checkboxs");
+                checkbox.setAttribute("ids", i);
+                if(task.completed){
+                  checkbox.setAttribute("checked", true);
+                }
+                tdStatus.appendChild(checkbox);
+                tdStatus.appendChild(document.createTextNode("  Complete"))
+                tr.appendChild(tdStatus)*/
+
+                tbody.appendChild(tr);
+              }
 
 
               tbody.appendChild(tr);
             //}
+
+            });
+
           </script>
 
         </table>
@@ -133,9 +172,8 @@
     $(document).ready(function() {
       
      
-        console.log(JSON.parse(ret));
-      
-    
+      console.log(JSON.parse(ret));
+     
       var date = new Date();
       var d = date.getDate();
       var m = date.getMonth();
