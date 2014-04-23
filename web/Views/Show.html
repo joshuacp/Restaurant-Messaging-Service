@@ -79,6 +79,33 @@
                 message.message = $('#NewMessage').val();
                 document.getElementById("NewMessage").value = "";
 
+                //Temporary new message create
+                var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
+
+                var tr=document.createElement('tr');
+
+                var tdDetails=document.createElement('td');
+                tdDetails.appendChild(document.createTextNode("task.issuer"))
+                tr.appendChild(tdDetails)
+
+                var tdIssuer=document.createElement('td');
+                tdIssuer.appendChild(document.createTextNode("task.message"));
+                tr.appendChild(tdIssuer);
+
+                var tdStatus=document.createElement('td');
+                var button = document.createElement("input");
+                button.setAttribute("type", "button");
+                button.height = 20;
+                button.width = 50;
+                button.value="Delete";
+                button.setAttribute("ids", i);
+                button.setAttribute("class", "buttons1");
+                tdStatus.appendChild(button);
+                tr.appendChild(tdStatus)
+
+                tbody.appendChild(tr);
+
+
                 console.log(message);
                 com.doPost("/create/message", JSON.stringify(message),"Post",function(success){
                     console.log("SUCCESS");
@@ -111,8 +138,6 @@
               var tr=document.createElement('tr');
               console.log("MESSAGES");
               console.log(messages);
-
-              var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
 
               for(var i = 0; i < messages.length; i++)
               {
