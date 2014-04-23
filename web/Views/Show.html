@@ -121,11 +121,11 @@
                 var tr=document.createElement('tr');
 
                 var tdDetails=document.createElement('td');
-                tdDetails.appendChild(document.createTextNode(task.message))
+                tdDetails.appendChild(document.createTextNode(task.issuer))
                 tr.appendChild(tdDetails)
 
                 var tdIssuer=document.createElement('td');
-                tdIssuer.appendChild(document.createTextNode(task.issuer));
+                tdIssuer.appendChild(document.createTextNode(task.message));
                 tr.appendChild(tdIssuer);
 
                 var tdStatus=document.createElement('td');
@@ -238,11 +238,12 @@
           calEvent.end = end;
           calEvent.allDay = allDay;
 
-
-          com.doPost("/create/event", JSON.stringify(calEvent),"Post",false,function(success){
-            console.log("SUCCESS");
-            return false;
-          });
+          if(title != null){
+            com.doPost("/create/event", JSON.stringify(calEvent),"Post",false,function(success){
+              console.log("SUCCESS");
+              return false;
+            });
+          }
         },
         editable: false,
         events: JSON.parse(ret)
