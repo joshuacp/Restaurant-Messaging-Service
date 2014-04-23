@@ -28,8 +28,8 @@
             <a class="navbar-brand" href="/Home/Show">Shift Link</a>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="/Home/Show">Home</a></li>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/user/logout">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -67,7 +67,7 @@
      <div class="container" id="container" align="left">
           <label class="col-md-2" for="NewMessage">New Message</label>
           <div class="col-md-4">
-              <textarea id="NewMessage" cols="40" rows="4"></textarea>
+              <textarea id="NewMessage" cols="35" rows="4"></textarea>
           </div>
           <button id="submitMessage" onclick="submitMessage()" class="btn btn btn-primary">
             <script>
@@ -280,33 +280,32 @@
       <h3>Tasks</h3>
       <hr><br>
       <div class="container" id="container" align="left">
-      <div class="col-md-9">
-        <label for="NewTask">New Task</label>
+        <label class="col-md-2" for="NewTask">New Task</label>
         <div>
-            <input id="NewTask" type="text">
+            <input class="col-md-2" id="NewTask" type="text">
         </div>
-        <br>
-        <button id="submitTask" onclick="submitTask()" class="btn btn btn-primary">
-          <script>
-            function submitTask() {
-              var com = new Communication();
-              var task = new Task();
-              console.log($('#NewTask').val());
+        <div style="padding-left: 435px;">
+          <button id="submitTask" onclick="submitTask()" class="btn btn btn-primary col-md-push-11">
+            <script>
+              function submitTask() {
+                var com = new Communication();
+                var task = new Task();
+                console.log($('#NewTask').val());
 
-              task.details = $('#NewTask').val();
-              task.completed = false;
-              console.log(task);
-              com.doPost("/create/task", JSON.stringify(task),"Post",function(success){
-                  console.log("SUCCESS");
-              });
-              console.log('done');
-            }
-          </script>
-            Create Task
-        </button>
+                task.details = $('#NewTask').val();
+                task.completed = false;
+                console.log(task);
+                com.doPost("/create/task", JSON.stringify(task),"Post",function(success){
+                    console.log("SUCCESS");
+                });
+                console.log('done');
+              }
+            </script>
+              Create Task
+          </button>
+        </div>
       </div>
-    </div>
-     <br><br>
+      <br><br>
         <table class="table table-bordered table-highlight table-hover" id="tasktable">
           <thead>
             <tr>
