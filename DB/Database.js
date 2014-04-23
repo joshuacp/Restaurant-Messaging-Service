@@ -3,6 +3,7 @@ var	MongoClient = require('mongodb').MongoClient
   	PersonDAO = require('./PersonDAO.js');
   	RestaurantDAO = require('./RestaurantDAO.js');
   	TaskDAO = require('./TaskDAO.js');
+  	CalendarDAO = require('./CalendarDAO.js');
 
 var dbClass = this;
 
@@ -24,6 +25,15 @@ Database.prototype.editUser = function (user){
 	personDAO = new PersonDAO();
 	console.log("USER: " + user);
 	personDAO.editUser(user);
+}
+
+Database.prototype.getUser = function (user,callback){
+	console.log('validation');
+	personDAO = new PersonDAO();
+	personDAO.getUser(user,function(response){
+		console.log('returned to here: ' + response);
+		callback(response);
+	});
 }
 
 
@@ -115,8 +125,23 @@ Database.prototype.deleteCollection = function (db,name){
 
 };
 
-Database.prototype.addToCollection = function (db,object){
+Database.prototype.addEvent = function(calEvent,callback){
 
+	calDAO = new CalendarDAO();
+	calDAO.addEvent(calEvent,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
+}
+
+
+Database.prototype.getCalendarEvents = function(restID,callback){
+
+	calDAO = new CalendarDAO();
+	calDAO.getEvents(restID,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
 }
 
 

@@ -1,60 +1,82 @@
 
 var loadJSON = require("./loadJSON.js");
 
-function CalendarEvent(name,id,message,type,date) {
+function CalendarEvent(start,id,title,end,allDay,url,restaurantID) {
     
-    this.name = name;
+    this.start = start;
     this.id = id;
-    this.message = message;
-    this.type = type;
-    this.date = date;
+    this.title = title;
+    this.end = end;
+    this.allDay = allDay;
+    this.url = url;
+    this.restaurantID = restaurantID;
 
 }
 
 CalendarEvent.prototype = loadJSON.prototype;
 
-CalendarEvent.prototype.setMessage = function(password){
-	this.message = message;
+CalendarEvent.prototype.clearNulls = function(){
+	this.title = title;
 };
 
-CalendarEvent.prototype.setName = function(name) {
-	this.name = name;
+CalendarEvent.prototype.setTitle = function(password){
+	this.title = title;
+};
+
+CalendarEvent.prototype.setStart = function(start) {
+	this.start = start;
 };
 
 CalendarEvent.prototype.setID = function(id) {
 	this.id = id;
 };
 
-CalendarEvent.prototype.setType = function(type){
-	this.type = type;
+CalendarEvent.prototype.setEnd = function(end){
+	this.end = end;
 };
 
-CalendarEvent.prototype.setDate = function(date){
-	this.date = date;
+CalendarEvent.prototype.setAllDay = function(allDay){
+	this.allDay = allDay;
 };
 
-CalendarEvent.prototype.getDate = function(){
-	return this.date;
+CalendarEvent.prototype.getAllDay = function(){
+	return this.allDay;
 };
 
-CalendarEvent.prototype.getType = function(){
-	return this.type;
+CalendarEvent.prototype.setRestaurantID = function(restaurantID) {
+	this.restaurantID = restaurantID;
+};
+
+CalendarEvent.prototype.getRestaurantID = function() {
+	return this.restaurantID;
+};
+
+CalendarEvent.prototype.setUrl = function(url){
+	this.url = url;
+};
+
+CalendarEvent.prototype.getUrl = function(){
+	return this.url;
+};
+
+CalendarEvent.prototype.getEnd = function(){
+	return this.end;
 };
 
 CalendarEvent.prototype.getID = function() {
 	return this.id;
 };
 
-CalendarEvent.prototype.getName = function() {
-	return this.name;
+CalendarEvent.prototype.getStart = function() {
+	return this.start;
 };
 
-CalendarEvent.prototype.getMessage = function() {
-	return this.message;
+CalendarEvent.prototype.setTitle = function() {
+	return this.title;
 };
 
 CalendarEvent.prototype.toString = function(){
-	return this.name + " " + this.id + " " + this.message;
+	return this.start + " " + this.id + " " + this.title;
 };
 
 

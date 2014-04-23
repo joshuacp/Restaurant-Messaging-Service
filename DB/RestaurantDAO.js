@@ -125,7 +125,7 @@ RestaurantDAO.prototype.getRestaurantID = function(restaurant,callback) {
 			        	callback(false);
 			        	return false;
 			        }
-			        console.log(doc.id);
+			        console.log(doc);
 			        console.log("WE GOT ONE");
 			        callback(doc.id);
 			        //console.log("Returned #1 documents");

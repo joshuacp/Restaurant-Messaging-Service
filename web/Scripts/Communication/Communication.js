@@ -1,6 +1,9 @@
 ﻿function Communication() {}
 
-Communication.prototype.doPost = function (url2, data2, type2) {
+Communication.prototype.doPost = function (url2, data2, type2,ret) {
+    returnValue = true;
+    if(ret != null)
+        returnValue = ret;
     console.log({
         url: url2,
         method: "POST",
@@ -18,8 +21,12 @@ Communication.prototype.doPost = function (url2, data2, type2) {
             //console.log("YEAH");
             //console.log(result);
             //console.log(JSON.parse(result).Location);
-            window.location = result;
 
+            if(result != "")
+                window.location = result;
+
+            if(returnValue == true)
+                return true;          
             //tempproxy.getModel().loadDataFromJson(result);
         }
 
@@ -33,6 +40,8 @@ Communication.prototype.doGet = function (url) {
         type: 'GET',
         async: 'false',
         success: function (result) {
+           
+
            console.log(result);
            return result;
         }
@@ -46,7 +55,7 @@ Communication.prototype.doGetSynch = function (url,callback) {
         type: 'GET',
         async: 'false',
         success: function (result) {
-           console.log(result);
+           console.log("returned: " + result);
            callback(result);
         }
     });

@@ -63,7 +63,7 @@
                             console.log(restaurant);
 
                             restaurant.name = $('#RestaurantName').val();
-                            restaurant.RestaurantPassword = $('#RestaurantPassword').val();
+                            restaurant.password = $('#RestaurantPassword').val();
                             console.log(restaurant);
                             com.doPost("/restaurant/join", JSON.stringify(restaurant),"Post",function(success){
                                 console.log("SUCCESS");

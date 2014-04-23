@@ -9,7 +9,6 @@ var sys = require("sys"),
     Restaurant = require("./DB/Restaurant.js");
     Database = require("./DB/Database.js");
     Person = require("./DB/Person.js");
-    Super = require("./DB/Super.js");
     Task = require("./DB/Task.js");
     CalendarEvent = require("./DB/CalendarEvent.js");
     mime = require('mime');
@@ -75,6 +74,35 @@ http.createServer(function(req, res) {
                 }
             })
         }
+        else if(uri == "/get/calendar"){
+            console.log("IN GET CAL");
+                    var date = new Date();
+
+            validateCookies(req,res,function(r){
+
+                if(r){
+                    var u = new Person();
+                    var s = JSON.parse(getCookie(req,"user"));
+                    u.loadFromJSON(s);
+                    var db = new Database();
+                    console.log(u);
+                    db.getCalendarEvents(u.getRestaurantID(),function(ret){
+                        console.log("BACK: " + ret);
+                        var a = [];
+                        if(ret == null || ret == ""){
+                            console.log("EMPTY: " + JSON.stringify(a));
+                            res.end(JSON.stringify(a));
+                            return;
+                        }
+                        res.end(JSON.stringify(ret));
+                    });
+                    
+                }
+                else{
+
+                }
+            })
+        }
         else{
             console.log("serving cookies");
             console.log(uri);
@@ -119,7 +147,7 @@ function isCSSData(uri){
 function validateUserCookie(req,res,callback){
     console.log("COOKIE");
     var userCook = getCookie(req,'user');
-    console.log(userCook);
+   // console.log(userCook);
     if(userCook == null){
        redirectTo(res,"/Views/Login.html");
         callback(false);
@@ -127,48 +155,6 @@ function validateUserCookie(req,res,callback){
         return;
         console.log("DIDNT RETURN");
     }
-    p = new Person();
-    p.loadFromJSON(JSON.parse(userCook));
-
-    console.log(p);
-    db = new Database();
-    db.validateUser(p,function(returnValue){
-
-        if(returnValue)
-            console.log('good');
-        else{
-            reidrectTo(res,"/Views/Login.html");
-            callback(false);
-        }
-        console.log("R: " + returnValue);
-        callback(returnValue);
-        
-    })
-
-
-
-}
-
-function validateCookies(req,res,callback){
-    console.log("COOKIE");
-    var userCook = getCookie(req,'user');
-    console.log(userCook);
-    if(userCook == null){
-       redirectTo(res,"/Views/Login.html");
-        callback(false);
-        res.end();
-        return;
-        console.log("DIDNT RETURN");
-    }
-    console.log("ID: " + JSON.parse(userCook).restaurantID);
-    if(JSON.parse(userCook).restaurantID == null){
-        redirectTo(res,"/Views/LoginRestaurant.html");
-        callback(false);
-        res.end();
-        return;
-        console.log("DIDNT RETURN");
-    }
-
     p = new Person();
     p.loadFromJSON(JSON.parse(userCook));
 
@@ -182,7 +168,49 @@ function validateCookies(req,res,callback){
             redirectTo(res,"/Views/Login.html");
             callback(false);
         }
-        console.log("R: " + returnValue);
+        //console.log("R: " + returnValue);
+       // callback(returnValue);
+        
+    })
+
+
+
+}
+
+function validateCookies(req,res,callback){
+   // console.log("COOKIE");
+    var userCook = getCookie(req,'user');
+   // console.log(userCook);
+    if(userCook == null){
+       redirectTo(res,"/Views/Login.html");
+        callback(false);
+        res.end();
+        return;
+        console.log("DIDNT RETURN");
+    }
+  //  console.log("ID: " + JSON.parse(userCook).restaurantID);
+    if(JSON.parse(userCook).restaurantID == null){
+        redirectTo(res,"/Views/LoginRestaurant.html");
+        callback(false);
+        res.end();
+        return;
+        console.log("DIDNT RETURN");
+    }
+
+    p = new Person();
+    p.loadFromJSON(JSON.parse(userCook));
+
+   // console.log(p);
+    db = new Database();
+    db.validateUser(p,function(returnValue){
+
+        if(returnValue)
+            console.log('good');
+        else{
+            redirectTo(res,"/Views/Login.html");
+            callback(false);
+        }
+       // console.log("R: " + returnValue);
         callback(returnValue);
         
     })
@@ -215,9 +243,9 @@ function redirectTo(res,url){
 
 function serve(req,res){
     var uri = url.parse(req.url).pathname;
-    console.log(uri);
+   // console.log(uri);
     var filename = path.join(process.cwd(), uri);
-    console.log('Serving ' + filename);
+    //console.log('Serving ' + filename);
     file.serve(req, res, function(err, result) {
       if (err) {
         console.error('Error serving %s - %s', req.url, err.message);
@@ -238,7 +266,7 @@ function serve(req,res){
 
 
 processPost = function(request,response){
-    console.log('process');
+   // console.log('process');
    
     var body = '';
     request.on('data', function (data) {
@@ -247,7 +275,7 @@ processPost = function(request,response){
     });
     request.on('end', function () {
 
-        console.log(body);
+      //  console.log(body);
         if(body == ""){
             //set response
             response.end();
@@ -255,25 +283,27 @@ processPost = function(request,response){
         }
         var POST = JSON.parse(body);
 
-        var p = new Super();
-        p.loadFromJSON(POST);
-
         var url = request.url;
-        console.log(url);
+     //   console.log(url);
 
 
         var db = new Database();
         if(url == "/user/create"){
-            db.addUser(p);
+            var u = new Person();
+            u.loadFromJSON(POST);
+            db.addUser(u);//validate user isn't repeat
             response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
             response.end("http://localhost:44444/Views/JoinRestaurant.html");
 
         }
         else if(url == "/user/login"){
-            db.validateUser(p,function(returnValue){
-                
-                if(returnValue){
-                    response.setHeader("Set-cookie", "user=" + JSON.stringify(p) +";Path=/;");
+            var u = new Person();
+            u.loadFromJSON(POST);
+            db.getUser(u,function(returnValue){
+            
+                if(returnValue != null){
+
+                    response.setHeader("Set-cookie", "user=" + JSON.stringify(returnValue) +";Path=/;");
                     console.log('back');
                     response.end("http://localhost:44444/Views/Show.html");
                 }
@@ -284,30 +314,35 @@ processPost = function(request,response){
         }
         else if(url == "/restaurant/join"){
             
-            console.log("User validated, trying to do stuff");
+            console.log("RestJOIN");
             var userCookie = getCookie(request,"user");
             if(userCookie == null)
                 response.end("http://localhost:44444/Views/Login.html");
-            p.loadFromJSON(JSON.parse(userCookie));
-            db.validateUser(p,function(returnValue){
+            var u = new Person();
+            u.loadFromJSON(JSON.parse(userCookie));
+            var r = new Restaurant();
+            db.validateUser(u,function(returnValue){
+                console.log("User validated, trying to do stuff");
                 console.log(returnValue);
                 if(returnValue){
-
-                    db.validateRestaurant(p,function(returnValue){
+                    
+                    r.loadFromJSON(POST);
+                    console.log(r);
+                    db.validateRestaurant(r,function(returnValue){
                         console.log(returnValue);
                         if(returnValue){
                             //response.setHeader("Set-cookie", "restaurant=" + JSON.stringify(p) +";Path=/;");
 
-                            db.getRestaurantID(p,function(returnValue){
+                            db.getRestaurantID(r,function(returnValue){
 
                                 console.log(returnValue);
                                 var u = new Person();
                                 var jU = JSON.parse(userCookie);
-                                console.log(jU);
-                                console.log(jU['name'] + " " + jU['password'] + " " + p.getID());
+                               // console.log(jU);
+                               // console.log(jU['name'] + " " + jU['password'] + " " + r.getID());
                                 u.loadFromJSON(jU);
                                 u.setRestaurantID(returnValue);
-                                console.log(u.getName() + " " + u.getPassword());
+                               // console.log(u.getName() + " " + u.getPassword());
                                 db.editUser(u);
                                 response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
                                 response.end("http://localhost:44444/Views/Show.html");
@@ -331,7 +366,7 @@ processPost = function(request,response){
             var u = new Person();
             u.loadFromJSON(JSON.parse(getCookie(request,"user")));
             db.validateUser(u,function(returnValue){
-               console.log("Validate:"+returnValue);
+              // console.log("Validate:"+returnValue);
                 if(returnValue){
                     db.addRestaurant(p,function(cresponse){
                             
@@ -357,7 +392,7 @@ processPost = function(request,response){
         else if(url == "/create/task"){
             var u = new Person();
             u.loadFromJSON(JSON.parse(getCookie(request,"user")));
-            console.log(u);
+           // console.log(u);
             db.validateUser(u,function(returnValue){
                 console.log("User validated, trying to do stuff");
                 var userCookie = getCookie(request,"user");
@@ -378,6 +413,41 @@ processPost = function(request,response){
                     console.log(t);
                     //console.log(ta.getName() + " " + ta.getPassword());
                     db.addTask(t);
+                    /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
+                    response.end("http://localhost:44444/Views/Show.html");*/
+                    // set happy headers?
+                    response.end();
+                }
+                else
+                    console.log("BAD");
+                
+            }); 
+
+        }
+        else if(url == "/create/event"){
+            var u = new Person();
+            u.loadFromJSON(JSON.parse(getCookie(request,"user")));
+           // console.log(u);
+            db.validateUser(u,function(returnValue){
+                console.log("User validated, trying to do stuff");
+                var userCookie = getCookie(request,"user");
+                if(userCookie == null)
+                    response.end("http://localhost:44444/Views/Login.html");
+                if(returnValue){
+
+                    console.log(returnValue);
+                    var calEvent = new CalendarEvent();
+                    console.log(body);
+                    var jT = JSON.parse(body);
+                    console.log(jT);
+                    console.log(calEvent);
+                    
+                    calEvent.loadFromJSON(jT);
+                    calEvent.setRestaurantID(u.getRestaurantID());
+                    //calEvent.setIssuer(u.getName());
+                    console.log(calEvent);
+                    //console.log(ta.getName() + " " + ta.getPassword());
+                    db.addEvent(calEvent);
                     /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
                     response.end("http://localhost:44444/Views/Show.html");*/
                     // set happy headers?

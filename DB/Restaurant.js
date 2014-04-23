@@ -1,4 +1,6 @@
 
+var loadJSON = require("./loadJSON.js");
+
 
 function Restaurant(name,id,password) {
     
@@ -7,6 +9,8 @@ function Restaurant(name,id,password) {
     this.password = password;
 
 }
+
+Restaurant.prototype = loadJSON.prototype;
 
 Restaurant.prototype.setPassword = function(password){
 	this.password = password;
