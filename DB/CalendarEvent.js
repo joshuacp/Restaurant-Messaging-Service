@@ -10,6 +10,8 @@ function CalendarEvent(start,id,title,end,allDay,url,restaurantID) {
     this.allDay = allDay;
     this.url = url;
     this.restaurantID = restaurantID;
+    this.day = "";
+    this.month = "";
 
 }
 

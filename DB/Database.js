@@ -135,17 +135,6 @@ Database.prototype.validateRestaurant = function(restaurant,callback){
 	
 }
 
-Database.prototype.deleteDocument = function(name,password){
-
-	dbClass.name = name;
-
-	MongoClient.connect(format("mongodb://%s:%s/test", this.host, this.port),function(err,db){
-		
-		dbClass.deleteCollection(db,dbs.name);
-	});
-
-	console.log("far");
-}
 
 Database.prototype.leaveRestaurant = function(name,person){
 	
@@ -169,6 +158,15 @@ Database.prototype.addEvent = function(calEvent,callback){
 
 	calDAO = new CalendarDAO();
 	calDAO.addEvent(calEvent,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
+}
+
+Database.prototype.deleteEvent = function(calEvent,callback){
+
+	calDAO = new CalendarDAO();
+	calDAO.deleteEvent(calEvent,function(response){
 		console.log('returned to ID?: ' + response);
 		if (typeof callback=="function") callback(response);
 	});

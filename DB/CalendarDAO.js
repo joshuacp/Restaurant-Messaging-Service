@@ -44,6 +44,23 @@ CalendarDAO.prototype.getEvents = function(resID,callback) {
 	});
 }
 
+CalendarDAO.prototype.deleteEvent = function(calEvent,callback){
+	console.log('deleteEvent');
+	console.log(calEvent);
+	MongoClient.connect(format("mongodb://%s:%s/calendar", this.getHost(), this.getPort()), function(err,db){
+		if (err) console.log(err);
+		else{
+			db.collection('calendar').remove({ "title": calEvent.title, "restaurantID": calEvent.getRestaurantID()}, function(err, records) {
+				if (err) sys.puts (err);
+				else
+					console.log("Deleted");
+				callback(true);
+			});
+		}
+
+	});
+}
+
 /*CalendarDAO.prototype.editTask = function(task){
 	console.log('addtask');
 	var dbs = this;
