@@ -89,7 +89,7 @@
                 tr.appendChild(tdDetails)
 
                 var tdIssuer=document.createElement('td');
-                tdIssuer.appendChild(document.createTextNode("task.message"));
+                tdIssuer.appendChild(document.createTextNode($('#NewMessage').val()));
                 tr.appendChild(tdIssuer);
 
                 var tdStatus=document.createElement('td');
@@ -123,6 +123,7 @@
             <tr>
               <th class="col-md-3">From</th>
               <th>Message</th>
+              <th>Delete</th>
             </tr>
           </thead>
 
