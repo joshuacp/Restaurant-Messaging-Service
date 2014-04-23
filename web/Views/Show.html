@@ -7,6 +7,7 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="../../Model/Task.js"></script>
 <script src="../../Model/Message.js"></script>
+<script src="../../Model/CalendarEvent.js"></script>
 <script src="../Scripts/Communication/Communication.js"></script>
 <link href='../../fullcalendar-1.6.4/fullcalendar/fullcalendar.css' rel='stylesheet' />
 <link href='../../fullcalendar-1.6.4/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
@@ -15,9 +16,8 @@
 <script src='../../fullcalendar-1.6.4/fullcalendar/fullcalendar.min.js'></script>
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
-
 <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="topContainer">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
@@ -63,7 +63,7 @@
       <h3>Messages</h3>
       <hr><br>
 
-      <div class="container" id="container">
+     <div class="container" id="container" align="left">
         <div class="col-md-9">
           <label for="NewMessage">New Message</label>
           <div>
@@ -92,7 +92,7 @@
       <br><br>
 
       <div class="table-responsive">
-        <table class="table table-bordered table-highlight table-hover" id="tasktable">
+        <table class="table table-bordered table-highlight table-hover" id="messagetable">
           <thead>
             <tr>
               <th class="col-md-3">From</th>
@@ -105,67 +105,153 @@
           <script type="text/javascript">
             var com = new Communication();
             //var messages = JSON.parse(com.doGet("/get/messages"));
-            var tbody = $('tbody');
+            var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
             //foreach(Task message in mesaages){
               var tr=document.createElement('tr');
 
-              var tdName=document.createElement('td');
-              tdName.appendChild(document.createTextNode("message.Details"))
-              tr.appendChild(tdName)
 
-              var tdMessage=document.createElement('td');
-              tdMessage.appendChild(document.createTextNode("message.Issuer"));
-              tr.appendChild(tdMessage);
 
-              tbody.append(tr);
+              tbody.appendChild(tr);
             //}
           </script>
 
         </table>
       </div>
-
-
     </div>
 
-    <div class="tab-pane fade" id="calendar-tab">
+    <div class="tab-pane fade active" id="calendar-tab">
       <h3>Calendar</h3>
       <hr><br>
+
+      <div id='calendar'></div>
+      <script>
+      var com = new Communication();
+      console.log("CALLING");
+       com.doGetSynch("/get/calendar",function(ret){
+
+    $(document).ready(function() {
+      
+     
+        console.log(JSON.parse(ret));
+      
+    
+      var date = new Date();
+      var d = date.getDate();
+      var m = date.getMonth();
+      var y = date.getFullYear();
+      
+      var calendar = $('#calendar').fullCalendar({
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,agendaWeek,agendaDay'
+        },
+        selectable: true,
+        selectHelper: true,
+        eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+
+            /*alert(
+                event.title + " was moved " +
+                dayDelta + " days and " +
+                minuteDelta + " minutes."
+            );
+            console.log(event);
+            var calEvent = new CalendarEvent();
+            calEvent.title = event.title;
+            calEvent.start = event.start;
+            calEvent.end = event.end;
+            calEvent.allDay = allDay;
+            if (!confirm("Are you sure about this change?")) {
+                revertFunc();
+            }
+              //com.doPost("/edit/event", JSON.stringify(calEvent),"Post",false*/
+
+        },
+        select: function(start, end, allDay) {
+          var title = prompt('Event Title:');
+          if (title) {
+            calendar.fullCalendar('renderEvent',
+              {
+                title: title,
+                start: start,
+                end: end,
+                allDay: allDay
+              },
+              true // make the event "stick"
+            );
+          }
+          calendar.fullCalendar('unselect');
+          var calEvent = new CalendarEvent();
+          calEvent.title = title;
+          calEvent.start = start;
+          calEvent.end = end;
+          calEvent.allDay = allDay;
+
+
+          com.doPost("/create/event", JSON.stringify(calEvent),"Post",false,function(success){
+            console.log("SUCCESS");
+            return false;
+          });
+        },
+        editable: false,
+        events: JSON.parse(ret)
+        //events: [{title:"All Day Event",start:"1922-04-01T06:00:00.000Z"}]
+      });
+      });
+      
+    });
+
+  </script>
+  <style>
+
+    body {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+      }
+
+    #calendar {
+      width: 900px;
+      margin: 0 auto;
+      }
+
+  </style>
+
+  
     </div>
 
-    <div class="tab-pane fade" id="task-tab">
-      <h3 class="">Tasks</h3>
+    <div class="tab-pane" id="task-tab" sytle="display:table" >
+      <h3>Tasks</h3>
       <hr><br>
-
-      <div class="container" id="container">
-        <div class="col-md-9">
-          <label for="NewTask">New Task</label>
-          <div>
-              <input id="NewTask" type="text">
-          </div>
-          <br>
-          <button id="submitTask" onclick="submitTask()" class="btn btn btn-primary">
-            <script>
-              function submitTask() {
-                var com = new Communication();
-                var task = new Task();
-                console.log($('#NewTask').val());
-
-                task.details = $('#NewTask').val();
-                task.completed = false;
-                console.log(task);
-                com.doPost("/create/task", JSON.stringify(task),"Post",function(success){
-                    console.log("SUCCESS");
-                });
-                console.log('done');
-              }
-            </script>
-              Create Task
-          </button>
+      <div class="container" id="container" align="left">
+      <div class="col-md-9">
+        <label for="NewTask">New Task</label>
+        <div>
+            <input id="NewTask" type="text">
         </div>
-      </div>
-      <br><br>
+        <br>
+        <button id="submitTask" onclick="submitTask()" class="btn btn btn-primary">
+          <script>
+            function submitTask() {
+              var com = new Communication();
+              var task = new Task();
+              console.log($('#NewTask').val());
 
-      <div class="table-responsive">
+              task.details = $('#NewTask').val();
+              task.completed = false;
+              console.log(task);
+              com.doPost("/create/task", JSON.stringify(task),"Post",function(success){
+                  console.log("SUCCESS");
+              });
+              console.log('done');
+            }
+          </script>
+            Create Task
+        </button>
+      </div>
+    </div>
+     <br><br>
         <table class="table table-bordered table-highlight table-hover" id="tasktable">
           <thead>
             <tr>
@@ -188,7 +274,8 @@
 
               console.log(tasks);
               console.log(tasks.length);
-              var tbody = $('tbody');
+              var tbody = document.getElementById('tasktable').getElementsByTagName('tbody')[0];
+              console.log(tbody);
               for(var i = 0; i < tasks.length; i++)
               {
                 console.log(i);
@@ -207,6 +294,9 @@
                 var tdStatus=document.createElement('td');
                 var checkbox = document.createElement("INPUT");
                 checkbox.setAttribute("type", "checkbox");
+
+                checkbox.setAttribute("class", "checkboxs");
+                checkbox.setAttribute("ids", i);
                 if(task.completed){
                   checkbox.setAttribute("checked", true);
                 }
@@ -214,17 +304,32 @@
                 tdStatus.appendChild(document.createTextNode("  Complete"))
                 tr.appendChild(tdStatus)
 
-                tbody.append(tr);
+                tbody.appendChild(tr);
               }
+
+              var checks = $('.checkboxs');
+              console.log(checks);
+              for(var i = 0; i < checks.length; i++){
+                console.log(checks[i]);
+                checks[i].onchange = function(){
+                  console.log("CHECKED");
+                  //console.log(tasks);
+                  console.log($(this).attr('ids'));
+
+                   com.doPost("/delete/task", JSON.stringify(tasks[$(this).attr('ids')]))
+                };
+              }
+
             }
           });
           </script>
 
         </table>
-      </div>
+   
     </div>
-
-  </div>
+ 
+ </div>
 </div>
 
-<footer class="text-center">&copy; 2014 - Shift Link, Inc.</footer>
+
+
