@@ -186,6 +186,8 @@
                   //console.log(tasks);
                   console.log($(this).attr('ids'));
                   var index = $(this).attr('ids');
+
+                  $(this).parent().parent().remove();//UI delete message
                   //console.log(buttons[$(this).attr('ids')]);
                   console.log(messages[index]);
                    com.doPost("/delete/message", JSON.stringify(messages[index]))
