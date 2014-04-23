@@ -65,12 +65,10 @@
       <hr><br>
 
      <div class="container" id="container" align="left">
-        <div class="col-md-9">
-          <label for="NewMessage">New Message</label>
-          <div>
-              <input id="NewMessage" type="text">
+          <label class="col-md-2" for="NewMessage">New Message</label>
+          <div class="col-md-4">
+              <textarea id="NewMessage" cols="40" rows="4"></textarea>
           </div>
-          <br>
           <button id="submitMessage" onclick="submitMessage()" class="btn btn btn-primary">
             <script>
               function submitMessage() {
@@ -89,7 +87,6 @@
             </script>
               Create Message
           </button>
-        </div>
       </div>
       <br><br>
 
