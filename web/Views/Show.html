@@ -77,11 +77,11 @@
                 console.log($('#NewMessage').val());
 
                 message.message = $('#NewMessage').val();
+                document.getElementById("NewMessage").value = "";
 
                 console.log(message);
                 com.doPost("/create/message", JSON.stringify(message),"Post",function(success){
                     console.log("SUCCESS");
-                    document.getElementById("NewMessage").value = "";
                 });
                 console.log('done');
               }
