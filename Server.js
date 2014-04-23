@@ -131,6 +131,12 @@ http.createServer(function(req, res) {
                 }
             })
         }
+        else if(uri == "/user/logout"){
+
+            res.setHeader("Set-cookie", "user=" + ""+";Path=/;");
+            redirectTo(res,"/Views/Login.html");
+            return;
+        }
         else{
             console.log("serving cookies");
             console.log(uri);
