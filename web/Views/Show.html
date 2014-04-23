@@ -74,43 +74,46 @@
               function submitMessage() {
                 var com = new Communication();
                 var message = new Message();
-                console.log($('#NewMessage').val());
+                messageVal = $('#NewMessage').val();
+                if(messageVal != ""){
+                  console.log(messageVal);
 
-                message.message = $('#NewMessage').val();
+                  message.message = messageVal;
 
-                //Temporary new message create
-                var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
+                  //Temporary new message create
+                  var tbody = document.getElementById('messagetable').getElementsByTagName('tbody')[0];
 
-                var tr=document.createElement('tr');
+                  var tr=document.createElement('tr');
 
-                var tdDetails=document.createElement('td');
-                tdDetails.appendChild(document.createTextNode("task.issuer"))
-                tr.appendChild(tdDetails)
+                  var tdDetails=document.createElement('td');
+                  tdDetails.appendChild(document.createTextNode("task.issuer"))
+                  tr.appendChild(tdDetails)
 
-                var tdIssuer=document.createElement('td');
-                tdIssuer.appendChild(document.createTextNode($('#NewMessage').val()));
-                tr.appendChild(tdIssuer);
+                  var tdIssuer=document.createElement('td');
+                  tdIssuer.appendChild(document.createTextNode(messageVal));
+                  tr.appendChild(tdIssuer);
 
-                var tdStatus=document.createElement('td');
-                var button = document.createElement("input");
-                button.setAttribute("type", "button");
-                button.height = 20;
-                button.width = 50;
-                button.value="Delete";
-                button.setAttribute("ids", $('#messagetable tbody').children().length);
-                button.setAttribute("class", "buttons1");
-                tdStatus.appendChild(button);
-                tr.appendChild(tdStatus)
+                  var tdStatus=document.createElement('td');
+                  var button = document.createElement("input");
+                  button.setAttribute("type", "button");
+                  button.height = 20;
+                  button.width = 50;
+                  button.value="Delete";
+                  button.setAttribute("ids", $('#messagetable tbody').children().length);
+                  button.setAttribute("class", "buttons1");
+                  tdStatus.appendChild(button);
+                  tr.appendChild(tdStatus)
 
-                tbody.appendChild(tr);
+                  tbody.appendChild(tr);
 
-                document.getElementById("NewMessage").value = "";//Clear textarea
+                  document.getElementById("NewMessage").value = "";//Clear textarea
 
-                console.log(message);
-                com.doPost("/create/message", JSON.stringify(message),"Post",function(success){
-                    console.log("SUCCESS");
-                });
-                console.log('done');
+                  console.log(message);
+                  com.doPost("/create/message", JSON.stringify(message),"Post",function(success){
+                      console.log("SUCCESS");
+                  });
+                  console.log('done');
+                }
               }
             </script>
               Create Message
@@ -318,15 +321,45 @@
               function submitTask() {
                 var com = new Communication();
                 var task = new Task();
-                console.log($('#NewTask').val());
+                var taskDetails = $('#NewTask').val();
+                if(taskDetails != ""){
+                  console.log(taskDetails);
 
-                task.details = $('#NewTask').val();
-                task.completed = false;
-                console.log(task);
-                com.doPost("/create/task", JSON.stringify(task),"Post",function(success){
-                    console.log("SUCCESS");
-                });
-                console.log('done');
+                  //Create temporary task
+                  var tbody = document.getElementById('tasktable').getElementsByTagName('tbody')[0];
+
+                  var tr=document.createElement('tr');
+
+                  var tdDetails=document.createElement('td');
+                  tdDetails.appendChild(document.createTextNode(taskDetails))
+                  tr.appendChild(tdDetails)
+
+                  var tdIssuer=document.createElement('td');
+                  tdIssuer.appendChild(document.createTextNode("task.issuer"));
+                  tr.appendChild(tdIssuer);
+
+                  var tdStatus=document.createElement('td');
+                  var checkbox = document.createElement("INPUT");
+                  checkbox.setAttribute("type", "checkbox");
+
+                  checkbox.setAttribute("class", "checkboxs");
+                  checkbox.setAttribute("ids", $('#messagetable tbody').children().length);
+                  checkbox.setAttribute("checked", true);
+                  tdStatus.appendChild(checkbox);
+                  tdStatus.appendChild(document.createTextNode("  Complete"))
+                  tr.appendChild(tdStatus);
+
+                  tbody.appendChild(tr);
+
+                  //submit
+                  task.details = taskDetails;
+                  task.completed = false;
+                  console.log(task);
+                  com.doPost("/create/task", JSON.stringify(task),"Post",function(success){
+                      console.log("SUCCESS");
+                  });
+                  console.log('done');
+                }
               }
             </script>
               Create Task
