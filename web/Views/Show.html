@@ -97,6 +97,7 @@
                 button.height = 20;
                 button.width = 50;
                 button.value="Delete";
+                button.setAttribute("ids", $('#messagetable tbody').children().length+1);
                 button.setAttribute("class", "buttons1");
                 tdStatus.appendChild(button);
                 tr.appendChild(tdStatus)
