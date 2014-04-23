@@ -431,6 +431,7 @@
                   console.log("CHECKED");
                   //console.log(tasks);
                   console.log($(this).attr('ids'));
+                  $(this).remove();
 
                    com.doPost("/delete/task", JSON.stringify(tasks[$(this).attr('ids')]))
                 };
