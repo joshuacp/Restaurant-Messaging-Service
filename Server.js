@@ -502,6 +502,41 @@ processPost = function(request,response){
             }); 
 
         }
+        else if(url == "/delete/message"){
+            var u = new Person();
+            u.loadFromJSON(JSON.parse(getCookie(request,"user")));
+           console.log(u);
+            db.validateUser(u,function(returnValue){
+                console.log("User validated, trying to do stuff");
+                var userCookie = getCookie(request,"user");
+                if(userCookie == null)
+                    response.end("http://"+host+":44444/Views/Login.html");
+                if(returnValue){
+
+                    console.log(returnValue);
+                    var message = new Message();
+                    console.log(body);
+                    var jT = JSON.parse(body);
+                    console.log(jT);
+                    console.log(message);
+                    
+                    message.loadFromJSON(jT);
+                    message.setRestaurantID(u.getRestaurantID());
+                    message.setIssuer(u.getName());
+                    console.log(message);
+                    //console.log(ta.getName() + " " + ta.getPassword());
+                    db.deleteMessage(message);
+                    /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
+                    response.end("http://"+host+":44444/Views/Show.html");*/
+                    // set happy headers?
+                    response.end();
+                }
+                else
+                    console.log("BAD");
+                
+            }); 
+
+        }
         else if(url == "/create/event"){
             var u = new Person();
             u.loadFromJSON(JSON.parse(getCookie(request,"user")));

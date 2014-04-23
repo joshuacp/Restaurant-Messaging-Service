@@ -87,6 +87,15 @@ Database.prototype.deleteTask = function(task,callback){
 	});
 }
 
+Database.prototype.deleteMessage = function(message,callback){
+
+	messageDAO = new MessageDAO();
+	messageDAO.deleteMessage(message,function(response){
+		console.log('returned to ID?: ' + response);
+		if (typeof callback=="function") callback(response);
+	});
+}
+
 
 Database.prototype.getTasks = function(restID,callback){
 

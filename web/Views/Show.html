@@ -131,27 +131,42 @@
                 tdIssuer.appendChild(document.createTextNode(task.issuer));
                 tr.appendChild(tdIssuer);
 
-                /*var tdStatus=document.createElement('td');
-                var checkbox = document.createElement("INPUT");
-                checkbox.setAttribute("type", "checkbox");
-
-                checkbox.setAttribute("class", "checkboxs");
-                checkbox.setAttribute("ids", i);
-                if(task.completed){
-                  checkbox.setAttribute("checked", true);
-                }
-                tdStatus.appendChild(checkbox);
-                tdStatus.appendChild(document.createTextNode("  Complete"))
-                tr.appendChild(tdStatus)*/
+                var tdStatus=document.createElement('td');
+                var button = document.createElement("input");
+                button.setAttribute("type", "button");
+                button.height = 20;
+                button.width = 50;
+                button.value="Delete";
+                button.setAttribute("ids", i);
+                button.setAttribute("class", "buttons1");
+                tdStatus.appendChild(button);
+                tr.appendChild(tdStatus)
 
                 tbody.appendChild(tr);
               }
 
 
-              tbody.appendChild(tr);
-            //}
+              console.log("BUTTONS");
 
-            });
+              
+              var buttons = $('.buttons1');
+              console.log(buttons);
+              for(var i = 0; i < buttons.length; i++){
+                console.log(buttons[i]);
+                buttons[i].onclick = function(){
+                  console.log("CHECKED");
+                  //console.log(tasks);
+                  console.log($(this).attr('ids'));
+                  var index = $(this).attr('ids');
+                  //console.log(buttons[$(this).attr('ids')]);
+                  console.log(messages[index]);
+                   com.doPost("/delete/message", JSON.stringify(messages[index]))
+                };
+              }
+
+            }); 
+
+              
 
           </script>
 
