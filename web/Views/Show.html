@@ -344,12 +344,13 @@
 
                   checkbox.setAttribute("class", "checkboxs");
                   checkbox.setAttribute("ids", $('#messagetable tbody').children().length);
-                  checkbox.setAttribute("checked", true);
                   tdStatus.appendChild(checkbox);
                   tdStatus.appendChild(document.createTextNode("  Complete"))
                   tr.appendChild(tdStatus);
 
                   tbody.appendChild(tr);
+
+                  document.getElementById("NewTask").value = "";//Clear textarea
 
                   //submit
                   task.details = taskDetails;
