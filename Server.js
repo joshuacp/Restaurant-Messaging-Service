@@ -19,6 +19,7 @@ var sys = require("sys"),
     $ = require('jquery')
     jsdom = require('jsdom');
     //db = new Database();
+    host = "162.243.88.146";
 
 
 var file = new(static.Server)('./web/', { 
@@ -297,7 +298,7 @@ processPost = function(request,response){
             })
                 console.log("GOOD");
             response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-            response.end("http://localhost:44444/Views/JoinRestaurant.html");
+            response.end("http://"+host+:44444/Views/JoinRestaurant.html");
             return;
 
 //validate user isn't repeat
@@ -318,7 +319,7 @@ processPost = function(request,response){
                     response.setHeader("Set-cookie", "user=" + JSON.stringify(returnValue) +";Path=/;");
                     console.log('back');
                     
-                    response.end("http://localhost:44444/Views/Show.html");
+                    response.end("http://"+host+:44444/Views/Show.html");
                 }
                 else
                     console.log("BAD");
@@ -330,7 +331,7 @@ processPost = function(request,response){
             console.log("RestJOIN");
             var userCookie = getCookie(request,"user");
             if(userCookie == null)
-                response.end("http://localhost:44444/Views/Login.html");
+                response.end("http://"+host+:44444/Views/Login.html");
             var u = new Person();
             u.loadFromJSON(JSON.parse(userCookie));
             var r = new Restaurant();
@@ -358,7 +359,7 @@ processPost = function(request,response){
                                // console.log(u.getName() + " " + u.getPassword());
                                 db.editUser(u);
                                 response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                                response.end("http://localhost:44444/Views/Show.html");
+                                response.end("http://"+host+:44444/Views/Show.html");
                             
                             })
 
@@ -396,7 +397,7 @@ processPost = function(request,response){
                             console.log(u.getName() + " " + u.getPassword());
                             db.editUser(u);
                             response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                            response.end("http://localhost:44444/Views/Show.html");
+                            response.end("http://"+host+:44444/Views/Show.html");
                         });
 
                     });
@@ -412,7 +413,7 @@ processPost = function(request,response){
                 console.log("User validated, trying to do stuff");
                 var userCookie = getCookie(request,"user");
                 if(userCookie == null)
-                    response.end("http://localhost:44444/Views/Login.html");
+                    response.end("http://"+host+:44444/Views/Login.html");
                 if(returnValue){
 
                     console.log(returnValue);
@@ -429,7 +430,7 @@ processPost = function(request,response){
                     //console.log(ta.getName() + " " + ta.getPassword());
                     db.addTask(t);
                     /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                    response.end("http://localhost:44444/Views/Show.html");*/
+                    response.end("http://"+host+:44444/Views/Show.html");*/
                     // set happy headers?
                     response.end();
                 }
@@ -447,7 +448,7 @@ processPost = function(request,response){
                 console.log("User validated, trying to do stuff");
                 var userCookie = getCookie(request,"user");
                 if(userCookie == null)
-                    response.end("http://localhost:44444/Views/Login.html");
+                    response.end("http://"+host+:44444/Views/Login.html");
                 if(returnValue){
 
                     console.log(returnValue);
@@ -464,7 +465,7 @@ processPost = function(request,response){
                     //console.log(ta.getName() + " " + ta.getPassword());
                     db.deleteTask(t);
                     /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                    response.end("http://localhost:44444/Views/Show.html");*/
+                    response.end("http://"+host+:44444/Views/Show.html");*/
                     // set happy headers?
                     response.end();
                 }
@@ -482,7 +483,7 @@ processPost = function(request,response){
                 console.log("User validated, trying to do stuff");
                 var userCookie = getCookie(request,"user");
                 if(userCookie == null)
-                    response.end("http://localhost:44444/Views/Login.html");
+                    response.end("http://"+host+:44444/Views/Login.html");
                 if(returnValue){
 
                     console.log(returnValue);
@@ -499,7 +500,7 @@ processPost = function(request,response){
                     //console.log(ta.getName() + " " + ta.getPassword());
                     db.addEvent(calEvent);
                     /*response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                    response.end("http://localhost:44444/Views/Show.html");*/
+                    response.end("http://"+host+:44444/Views/Show.html");*/
                     // set happy headers?
                     response.end();
                 }
