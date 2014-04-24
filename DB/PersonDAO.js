@@ -26,7 +26,7 @@ PersonDAO.prototype.addUser = function(user,callback){
 						if (err) sys.puts (err);
 						else
 							console.log("Record added as "+records[0]._id);
-						callback(true);
+						callback(user);
 					});
 				});
 			}

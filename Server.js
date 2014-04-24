@@ -333,12 +333,16 @@ processPost = function(request,response){
 
                 db.addUser(u,function(ret){
                     console.log("WE ACTUALLY RETURNED");
-                })
+               
                     console.log("GOOD");
-                response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                response.writeHead(200);
-                response.end();
-                return;
+                    var safeUser = new Person();
+                    safeUser.name = ret.name;
+                    safeUser.cookieID = ret.cookieID;
+                    response.setHeader("Set-cookie", "user=" + JSON.stringify(safeUser) +";Path=/;");
+                    response.writeHead(200);
+                    response.end();
+                    return;
+                 })
 
              });
 
@@ -358,7 +362,7 @@ processPost = function(request,response){
                     var safeUser = new Person();
                     safeUser.name = returnValue.name;
                     safeUser.cookieID = returnValue.cookieID;
-                    response.setHeader("Set-cookie", "user=" + JSON.stringify(returnValue) +";Path=/;");
+                    response.setHeader("Set-cookie", "user=" + JSON.stringify(safeUser) +";Path=/;");
                     console.log('back');
                     response.writeHead(200);
                     response.end();

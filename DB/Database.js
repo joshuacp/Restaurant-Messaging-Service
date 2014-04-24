@@ -19,6 +19,7 @@ Database.prototype.addUser = function (user,callback){
 
 	personDAO = new PersonDAO();
 	personDAO.addUser(user,function(ret){
+		console.log("ADDED AND RETURNED +++++: " + ret);
 		callback(ret);
 	});
 }
