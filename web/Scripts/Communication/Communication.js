@@ -19,8 +19,8 @@ Communication.prototype.doPost = function (url2, data2, type2, ret) {
         type: type2,
         success: function (result) {
 
-
-              
+            if(ret!=null)
+                ret(true);
             return true;
             //tempproxy.getModel().loadDataFromJson(result);
         }
