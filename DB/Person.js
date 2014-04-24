@@ -1,6 +1,7 @@
 
 var loadJSON = require("./loadJSON.js");
 	bcrypt = require("bcrypt");
+	crypto = require('crypto');
 
 function Person(name,password,id,type,restaurantID) {
 
