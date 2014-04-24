@@ -329,17 +329,18 @@ processPost = function(request,response){
         if(url == "/user/create"){
             var u = new Person();
             u.loadFromJSON(POST);
-            db.addUser(u,function(ret){
-                console.log("WE ACTUALLY RETURNED");
-            })
-                console.log("GOOD");
-            response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-            response.writeHead(200);
-            response.end();
-            return;
+            u.encryptPassword(function(ret){
+                
+                db.addUser(u,function(ret){
+                    console.log("WE ACTUALLY RETURNED");
+                })
+                    console.log("GOOD");
+                response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
+                response.writeHead(200);
+                response.end();
+                return;
 
-//validate user isn't repeat
-
+             });
 
         }
         else if(url == "/user/login"){
