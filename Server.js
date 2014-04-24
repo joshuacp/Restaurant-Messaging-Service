@@ -21,7 +21,7 @@ var sys = require("sys"),
     jsdom = require('jsdom');
     //db = new Database();
     host = "162.243.88.146";
-    host = "localhost";
+   // host = "localhost";
 
 
 var file = new(static.Server)('./web/', { 
