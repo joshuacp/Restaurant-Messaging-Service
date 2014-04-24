@@ -72,10 +72,11 @@ PersonDAO.prototype.loginUser = function(user,callback) {
 				        
 				        //console.log("Returned #1 documents");
 				  });
-			}
+			});
+		}
 			
-		});
 	});
+	
 }
 
 PersonDAO.prototype.editUser = function(user){
