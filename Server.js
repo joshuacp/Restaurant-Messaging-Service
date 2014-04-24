@@ -351,23 +351,22 @@ processPost = function(request,response){
             u.loadFromJSON(POST);
             console.log(u);
            // var check = u.password;
-            u.encryptPassword(function(ret){
+           
+            db.getUser(u,function(returnValue){
+            
+                if(returnValue != null){
 
-                db.getUser(u,function(returnValue){
-                
-                    if(returnValue != null){
+                    response.setHeader("Set-cookie", "user=" + JSON.stringify(returnValue) +";Path=/;");
+                    console.log('back');
+                    response.writeHead(200);
+                    response.end();
+                    return;
+                }
+                else
+                    console.log("BAD");
 
-                        response.setHeader("Set-cookie", "user=" + JSON.stringify(returnValue) +";Path=/;");
-                        console.log('back');
-                        response.writeHead(200);
-                        response.end();
-                        return;
-                    }
-                    else
-                        console.log("BAD");
-
-                });
             });
+
         }
         else if(url == "/restaurant/join"){
             

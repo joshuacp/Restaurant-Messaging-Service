@@ -39,7 +39,7 @@ PersonDAO.prototype.getUser = function(user,callback) {
 		
 		if (err) console.log(err);
 		else{
-			  db.collection('user').find({ "name": user.getName(), "password": user.getPassword()}).nextObject(function(err, doc) {            
+			  db.collection('user').find({ "name": user.getName()}).nextObject(function(err, doc) {            
 			       	if(err){
 			       		console.log(err);
 			       		callback(false);
@@ -52,6 +52,9 @@ PersonDAO.prototype.getUser = function(user,callback) {
 			        }
 			        console.log(doc.id);
 			        console.log("WE GOT ONE");
+			        user.checkPassword(user.password,doc.password,function(ret){
+			        	console.log("DID IT WORK: " +ret);
+			        });
 			        callback(doc);
 			        //console.log("Returned #1 documents");
 			  });
