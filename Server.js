@@ -330,7 +330,7 @@ processPost = function(request,response){
             var u = new Person();
             u.loadFromJSON(POST);
             u.encryptPassword(function(ret){
-                
+
                 db.addUser(u,function(ret){
                     console.log("WE ACTUALLY RETURNED");
                 })
@@ -350,12 +350,7 @@ processPost = function(request,response){
             console.log(u);
             u.loadFromJSON(POST);
             console.log(u);
-           // var check = u.password;
-            u.encryptPassword(function(ret){
-             //   console.log("pass encrypted as: " + u.password);
-            //    u.checkPassword(check,u.password);
-            });
-            
+
             db.getUser(u,function(returnValue){
             
                 if(returnValue != null){
