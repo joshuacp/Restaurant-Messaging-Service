@@ -351,11 +351,13 @@ processPost = function(request,response){
             u.loadFromJSON(POST);
             console.log(u);
            // var check = u.password;
-           
-            db.getUser(u,function(returnValue){
+
+            db.loginUser(u,function(returnValue){
             
                 if(returnValue != null){
-
+                    var safeUser = new Person();
+                    safeUser.name = returnValue.name;
+                    safeUser.cookieID = returnValue.cookieID;
                     response.setHeader("Set-cookie", "user=" + JSON.stringify(returnValue) +";Path=/;");
                     console.log('back');
                     response.writeHead(200);

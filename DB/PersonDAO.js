@@ -21,11 +21,13 @@ PersonDAO.prototype.addUser = function(user,callback){
 		MongoClient.connect(format("mongodb://%s:%s/user", d.getHost(), d.getPort()), function(err,db){
 			if (err) console.log(err);
 			else{
-				db.collection('user').insert(user, function(err, records) {
-					if (err) sys.puts (err);
-					else
-						console.log("Record added as "+records[0]._id);
-					callback(true);
+				user.generateID(function(ret){
+					db.collection('user').insert(user, function(err, records) {
+						if (err) sys.puts (err);
+						else
+							console.log("Record added as "+records[0]._id);
+						callback(true);
+					});
 				});
 			}
 
@@ -33,7 +35,7 @@ PersonDAO.prototype.addUser = function(user,callback){
 	});
 }
 
-PersonDAO.prototype.getUser = function(user,callback) {
+PersonDAO.prototype.loginUser = function(user,callback) {
 	var name = name;
 	MongoClient.connect(format("mongodb://%s:%s/user", this.getHost(), this.getPort()), function(err,db){
 		
@@ -50,8 +52,9 @@ PersonDAO.prototype.getUser = function(user,callback) {
 			        	callback(false);
 			        	return false;
 			        }
-			        console.log(doc.id);
+			        console.log(doc);
 			        console.log("WE GOT ONE");
+			        console.log(user);
 			        user.checkPassword(user.password,doc.password,function(ret){
 			        	console.log("DID IT WORK: " +ret);
 			        });
@@ -98,7 +101,7 @@ var success = false;
 		//console.log(user.getName());
 		if (err) console.log(err);
 		else{
-			  db.collection('user').find({ "name": user.getName(), "password": user.getPassword()}).nextObject(function(err, doc) {            
+			  db.collection('user').find({ "name": user.getName(), "cookieID": user.getCookieID()}).nextObject(function(err, doc) {            
 			       	if(err){
 			       		console.log(err);
 			       		callback(false);

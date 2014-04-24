@@ -10,6 +10,7 @@ function Person(name,password,id,type,restaurantID) {
     this.id = id;
     this.restaurantID = restaurantID;
     this.type = type
+    this.cookieID;
 
 }
 
@@ -41,6 +42,15 @@ var p = this.password;
 	
 };
 
+Person.prototype.generateID = function(callback){
+	var seed = crypto.randomBytes(20);
+	var id = crypto.createHash('sha1').update(seed).digest('hex');
+
+	this.cookieID = id;
+	callback(true);
+};
+
+
 Person.prototype.setPassword = function(password){
 	this.password = password;
 };
@@ -59,6 +69,14 @@ Person.prototype.setRestaurantID = function(restaurantID) {
 
 Person.prototype.getRestaurantID = function() {
 	return this.restaurantID;
+};
+
+Person.prototype.setCookieID = function(cookieID) {
+	this.cookieID = cookieID;
+};
+
+Person.prototype.getCookieID = function() {
+	return this.cookieID;
 };
 
 Person.prototype.setType = function(type){

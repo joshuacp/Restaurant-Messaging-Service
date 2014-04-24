@@ -30,10 +30,10 @@ Database.prototype.editUser = function (user){
 	personDAO.editUser(user);
 }
 
-Database.prototype.getUser = function (user,callback){
+Database.prototype.loginUser = function (user,callback){
 	console.log('validation');
 	personDAO = new PersonDAO();
-	personDAO.getUser(user,function(response){
+	personDAO.loginUser(user,function(response){
 		console.log('returned to here: ' + response);
 		callback(response);
 	});
