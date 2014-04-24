@@ -129,7 +129,7 @@ Database.prototype.addMessage = function(restID,callback){
 Database.prototype.validateRestaurant = function(restaurant,callback){
 
 	restaurantDAO = new RestaurantDAO();
-	restaurantDAO.validateUser(restaurant,function(response){
+	restaurantDAO.validateRestaurant(restaurant,function(response){
 		console.log('returned to here: ' + response);
 		callback(response);
 	});

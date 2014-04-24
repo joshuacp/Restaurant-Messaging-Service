@@ -51,12 +51,12 @@ RestaurantDAO.prototype.practiceCallback = function(){
 
 RestaurantDAO.prototype.validateRestaurant = function(restaurant,callback){
 var success = false;
-console.log("validating: " restaurant);
+console.log("validating: " + restaurant);
 	MongoClient.connect(format("mongodb://%s:%s/test", this.getHost(), this.getPort()), function(err,db){
 		
 		if (err) console.log(err);
 		else{
-			  db.collection('test').find({ "name": restaurant.getName(), "password": restaurant.getPassword()}).nextObject(function(err, doc,callback) {            
+			  db.collection('test').find({ "name": restaurant.getName(), "password": restaurant.getPassword()}).nextObject(function(err, doc) {            
 			       	if(err){
 			       		console.log(err);
 			       		callback(false);
