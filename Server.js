@@ -218,7 +218,7 @@ function validateCookies(req,res,callback){
     console.log("COOKIE");
     var userCook = getCookie(req,'user');
    // console.log(userCook);
-    if(userCook == null){
+    if(userCook == null || userCook == ""){
        redirectTo(res,"/Views/Login.html");
         callback(false);
         res.end();
