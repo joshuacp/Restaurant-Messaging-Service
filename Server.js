@@ -329,22 +329,19 @@ processPost = function(request,response){
         if(url == "/user/create"){
             var u = new Person();
             u.loadFromJSON(POST);
-            u.encryptPassword(function(ret){
 
-                db.addUser(u,function(ret){
-                    console.log("WE ACTUALLY RETURNED");
-               
-                    console.log("GOOD");
-                    var safeUser = new Person();
-                    safeUser.name = ret.name;
-                    safeUser.cookieID = ret.cookieID;
-                    response.setHeader("Set-cookie", "user=" + JSON.stringify(safeUser) +";Path=/;");
-                    response.writeHead(200);
-                    response.end();
-                    return;
-                 })
-
-             });
+            db.addUser(u,function(ret){
+                console.log("WE ACTUALLY RETURNED");
+           
+                console.log("GOOD");
+                var safeUser = new Person();
+                safeUser.name = ret.name;
+                safeUser.cookieID = ret.cookieID;
+                response.setHeader("Set-cookie", "user=" + JSON.stringify(safeUser) +";Path=/;");
+                response.writeHead(200);
+                response.end();
+                return;
+             })
 
         }
         else if(url == "/user/login"){

@@ -89,7 +89,7 @@
                         person.password = $('#Password').val();
                         person.type = $('#Type').val();
                         console.log(person);
-                        com.doPost("/user/create", JSON.stringify(person),"Post",function(ret){
+                        com.doPost("/user/create", JSON.stringify(person),"Post",true,function(ret){
                             console.log("Redirect");
                             window.location = "http://162.243.88.146:44444/Views/Show.html";
                         });

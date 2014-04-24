@@ -17,20 +17,11 @@ function Person(name,password,id,type,restaurantID) {
 
 Person.prototype = loadJSON.prototype;
 
-Person.prototype.checkPassword = function(password,hash,callback){
-
-	bcrypt.compare(password, hash, function(err, res) {
-	    console.log("THE CHECK:");
-	    console.log(res);
-	    
-	});
-
-}
-
 Person.prototype.encryptPassword = function(callback){
 
-var per = this;
-var p = this.password;
+	var per = this;
+	var p = this.password;
+	console.log("HASING: " + p);
 	bcrypt.genSalt(10, function(err, salt) {
 
     bcrypt.hash(p, salt, function(err, hash) {

@@ -270,9 +270,13 @@
                 revertFunc();
             }*/
               com.doPost("/delete/event", JSON.stringify(calEvent),"Post",false,function(){
-
-              })
-              com.doPost("/create/event", JSON.stringify(calEvent),"Post",false)
+                
+                com.doPost("/create/event", JSON.stringify(calEvent),"Post",false,function(){
+                  console.log('done');
+                });
+                return;
+              });
+              
 
         },
         select: function(start, end, allDay) {

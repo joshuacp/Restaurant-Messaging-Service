@@ -60,7 +60,7 @@
                             person.name = $('#UserName').val();
                             person.password = $('#Password').val();
                             console.log(person);
-                            com.doPost("/user/login", JSON.stringify(person),"Post",function(success){
+                            com.doPost("/user/login", JSON.stringify(person),"Post",true,function(success){
                                 console.log("redirect");
                                 window.location = "http://162.243.88.146:44444/Views/Show.html";
                             });

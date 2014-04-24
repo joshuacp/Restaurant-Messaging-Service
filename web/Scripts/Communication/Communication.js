@@ -1,9 +1,9 @@
 ﻿function Communication() {}
 
-Communication.prototype.doPost = function (url2, data2, type2, ret) {
+Communication.prototype.doPost = function (url2, data2, type2, reload, ret) {
     returnValue = true;
-    if(ret != null)
-        returnValue = ret;
+    if(reload != null)
+        returnValue = reload;
     console.log({
         url: url2,
         method: "POST",
@@ -19,9 +19,12 @@ Communication.prototype.doPost = function (url2, data2, type2, ret) {
         type: type2,
         success: function (result) {
 
-            if(ret!=null)
-                ret(true);
-            return true;
+            if(reload!=null){
+                ret(false);
+                return;
+            }
+            ret(true);
+            return;
             //tempproxy.getModel().loadDataFromJson(result);
         }
 

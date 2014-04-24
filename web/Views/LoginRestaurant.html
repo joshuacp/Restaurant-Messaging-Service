@@ -60,7 +60,7 @@
                             restaurant.name = $('#RestaurantName').val();
                             restaurant.password = $('#RestaurantPassword').val();
                             console.log(restaurant);
-                            com.doPost("/restaurant/join", JSON.stringify(restaurant),"Post",function(success){
+                            com.doPost("/restaurant/join", JSON.stringify(restaurant),"Post",true,function(success){
                                 console.log("SUCCESS");
                                 window.location = "http://162.243.88.146:44444/Views/Show.html";
                             });

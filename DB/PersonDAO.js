@@ -1,7 +1,7 @@
 
 var DatabaseDAO = require("./DatabaseDAO.js"),
 	crypto = require("crypto");
-
+	bcrypt = require("bcrypt");
 
 var MongoClient = require('mongodb').MongoClient
   , format = require('util').format;
@@ -55,10 +55,16 @@ PersonDAO.prototype.loginUser = function(user,callback) {
 			        console.log(doc);
 			        console.log("WE GOT ONE");
 			        console.log(user);
-			        user.checkPassword(user.password,doc.password,function(ret){
-			        	console.log("DID IT WORK: " +ret);
-			        });
-			        callback(doc);
+			        //console.log(d);
+		        	bcrypt.compare(user.password, doc.password, function(err, res) {
+					    console.log("THE CHECK:");
+					    console.log(res);
+					    if(res)
+					    	callback(doc);
+					    else
+					    	callback(null);
+					});
+			        
 			        //console.log("Returned #1 documents");
 			  });
 		}
