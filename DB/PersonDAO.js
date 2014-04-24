@@ -1,5 +1,6 @@
 
-var DatabaseDAO = require("./DatabaseDAO.js");
+var DatabaseDAO = require("./DatabaseDAO.js"),
+	crypto = require("crypto");
 
 
 var MongoClient = require('mongodb').MongoClient
@@ -15,17 +16,19 @@ PersonDAO.prototype = DatabaseDAO.prototype;
 
 PersonDAO.prototype.addUser = function(user,callback){
 	console.log('adduser');
-	MongoClient.connect(format("mongodb://%s:%s/user", this.getHost(), this.getPort()), function(err,db){
-		if (err) console.log(err);
-		else{
-			db.collection('user').insert(user, function(err, records) {
-				if (err) sys.puts (err);
-				else
-					console.log("Record added as "+records[0]._id);
-				callback(true);
-			});
-		}
+	user.encryptPassword(function(ret){
+		MongoClient.connect(format("mongodb://%s:%s/user", this.getHost(), this.getPort()), function(err,db){
+			if (err) console.log(err);
+			else{
+				db.collection('user').insert(user, function(err, records) {
+					if (err) sys.puts (err);
+					else
+						console.log("Record added as "+records[0]._id);
+					callback(true);
+				});
+			}
 
+		});
 	});
 }
 
@@ -54,9 +57,6 @@ PersonDAO.prototype.getUser = function(user,callback) {
 		}
 		
 	});
-
-
-
 }
 
 PersonDAO.prototype.editUser = function(user){
