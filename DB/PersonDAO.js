@@ -63,7 +63,7 @@ PersonDAO.prototype.loginUser = function(user,callback) {
 						    console.log("THE CHECK:");
 						    console.log(res);
 						    if(res){
-						    	d.editUser(user);
+						    	d.editUserCookieID(user);
 						    	callback(doc);
 						    }
 						    else
@@ -77,6 +77,36 @@ PersonDAO.prototype.loginUser = function(user,callback) {
 			
 	});
 	
+}
+
+PersonDAO.prototype.editUserCookieID = function(user){
+	console.log('adduser');
+	var dbs = this;
+	MongoClient.connect(format("mongodb://%s:%s/user", this.getHost(), this.getPort()), function(err,db){
+		if (err) console.log(err);
+		else{
+			console.log("UPDATING to: " + user);
+
+			db.collection('user').findAndModify({ 
+				"name": user.getName()},
+				[], 
+				{$set: {"cookieID": user.getCookieID()}},
+				{},
+				function(err, records) {
+				if (err || records == null) console.log (err); return;
+				//else
+					//console.log("Record added as "+records[0]._id);
+				console.log(records);
+
+			});
+			console.log('after');
+			dbs.validateUser(user,function(re){
+				console.log("NEW USER?: " + re);
+			});
+
+		}
+
+	});
 }
 
 PersonDAO.prototype.editUser = function(user){
