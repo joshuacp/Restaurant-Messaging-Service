@@ -63,8 +63,11 @@ PersonDAO.prototype.loginUser = function(user,callback) {
 						    console.log("THE CHECK:");
 						    console.log(res);
 						    if(res){
-						    	d.editUserCookieID(user);
-						    	callback(doc);
+						    	d.editUserCookieID(user,function(ret){
+
+						    		callback(ret);
+						    	});
+						    	
 						    }
 						    else
 						    	callback(null);
@@ -79,7 +82,7 @@ PersonDAO.prototype.loginUser = function(user,callback) {
 	
 }
 
-PersonDAO.prototype.editUserCookieID = function(user){
+PersonDAO.prototype.editUserCookieID = function(user,callback){
 	console.log('adduser');
 	var dbs = this;
 	MongoClient.connect(format("mongodb://%s:%s/user", this.getHost(), this.getPort()), function(err,db){
@@ -103,6 +106,7 @@ PersonDAO.prototype.editUserCookieID = function(user){
 			dbs.validateUser(user,function(re){
 				console.log("NEW USER?: " + re);
 			});
+			callback(user);
 
 		}
 
