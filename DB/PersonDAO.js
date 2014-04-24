@@ -16,8 +16,9 @@ PersonDAO.prototype = DatabaseDAO.prototype;
 
 PersonDAO.prototype.addUser = function(user,callback){
 	console.log('adduser');
+	var d = this;
 	user.encryptPassword(function(ret){
-		MongoClient.connect(format("mongodb://%s:%s/user", this.getHost(), this.getPort()), function(err,db){
+		MongoClient.connect(format("mongodb://%s:%s/user", d.getHost(), d.getPort()), function(err,db){
 			if (err) console.log(err);
 			else{
 				db.collection('user').insert(user, function(err, records) {
