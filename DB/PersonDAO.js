@@ -37,38 +37,44 @@ PersonDAO.prototype.addUser = function(user,callback){
 
 PersonDAO.prototype.loginUser = function(user,callback) {
 	var name = name;
+	var this = d;
 	MongoClient.connect(format("mongodb://%s:%s/user", this.getHost(), this.getPort()), function(err,db){
 		
 		if (err) console.log(err);
 		else{
-			  db.collection('user').find({ "name": user.getName()}).nextObject(function(err, doc) {            
-			       	if(err){
-			       		console.log(err);
-			       		callback(false);
-			       		return false;
-			       	}
 
-			        if(doc == null){
-			        	callback(false);
-			        	return false;
-			        }
-			        console.log(doc);
-			        console.log("WE GOT ONE");
-			        console.log(user);
-			        //console.log(d);
-		        	bcrypt.compare(user.password, doc.password, function(err, res) {
-					    console.log("THE CHECK:");
-					    console.log(res);
-					    if(res)
-					    	callback(doc);
-					    else
-					    	callback(null);
-					});
-			        
-			        //console.log("Returned #1 documents");
-			  });
-		}
-		
+			user.generateID(function(ret){
+				  db.collection('user').find({ "name": user.getName()}).nextObject(function(err, doc) {            
+				       	if(err){
+				       		console.log(err);
+				       		callback(false);
+				       		return false;
+				       	}
+
+				        if(doc == null){
+				        	callback(false);
+				        	return false;
+				        }
+				        console.log(doc);
+				        console.log("WE GOT ONE");
+				        console.log(user);
+				        //console.log(d);
+			        	bcrypt.compare(user.password, doc.password, function(err, res) {
+						    console.log("THE CHECK:");
+						    console.log(res);
+						    if(res){
+						    	d.editUser(user);
+						    	callback(doc);
+						    }
+						    else
+						    	callback(null);
+						});
+				        
+				        //console.log("Returned #1 documents");
+				  });
+			}
+			
+		});
 	});
 }
 
