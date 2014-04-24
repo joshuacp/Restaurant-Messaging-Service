@@ -62,6 +62,7 @@
                             console.log(restaurant);
                             com.doPost("/restaurant/join", JSON.stringify(restaurant),"Post",function(success){
                                 console.log("SUCCESS");
+                                window.location = "http://localhost:44444/Views/Show.html";
                             });
                             console.log('done');
                         }

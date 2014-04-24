@@ -18,16 +18,10 @@ Communication.prototype.doPost = function (url2, data2, type2, ret) {
         async: 'true',
         type: type2,
         success: function (result) {
-            //console.log("YEAH");
-            //console.log(result);
-            console.log("SUCCES");
-            console.log(result);
 
-            if(result != "")
-                window.location = result;
 
-            if(returnValue == true)
-                return true;          
+              
+            return true;
             //tempproxy.getModel().loadDataFromJson(result);
         }
 

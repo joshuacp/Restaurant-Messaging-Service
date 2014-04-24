@@ -61,8 +61,10 @@
                             person.password = $('#Password').val();
                             console.log(person);
                             com.doPost("/user/login", JSON.stringify(person),"Post",function(success){
-                                console.log("SUCCESS");
+                                console.log("redirect");
+                                window.location = "http://localhost:44444/Views/Show.html";
                             });
+                            //
                             console.log('done');
                         }
                     </script>

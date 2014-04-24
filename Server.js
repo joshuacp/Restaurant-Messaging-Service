@@ -21,6 +21,7 @@ var sys = require("sys"),
     jsdom = require('jsdom');
     //db = new Database();
     host = "162.243.88.146";
+    host = "localhost";
 
 
 var file = new(static.Server)('./web/', { 
@@ -331,7 +332,8 @@ processPost = function(request,response){
             })
                 console.log("GOOD");
             response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-            response.end("http://"+host+":44444/Views/JoinRestaurant.html");
+            response.writeHead(200);
+            response.end();
             return;
 
 //validate user isn't repeat
@@ -351,8 +353,9 @@ processPost = function(request,response){
 
                     response.setHeader("Set-cookie", "user=" + JSON.stringify(returnValue) +";Path=/;");
                     console.log('back');
-                    
-                    response.end("http://"+host+":44444/Views/Show.html");
+                    response.writeHead(200);
+                    response.end();
+                    return;
                 }
                 else
                     console.log("BAD");
@@ -364,7 +367,8 @@ processPost = function(request,response){
             console.log("RestJOIN");
             var userCookie = getCookie(request,"user");
             if(userCookie == null)
-                response.end("http://"+host+":44444/Views/Login.html");
+                redirectTo(response, "http://"+host+":44444/Views/Login.html")
+                //response.end("http://"+host+":44444/Views/Login.html");
             var u = new Person();
             u.loadFromJSON(JSON.parse(userCookie));
             var r = new Restaurant();
@@ -392,7 +396,9 @@ processPost = function(request,response){
                                // console.log(u.getName() + " " + u.getPassword());
                                 db.editUser(u);
                                 response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                                response.end("http://"+host+":44444/Views/Show.html");
+                                response.writeHead(200);
+                                response.end();
+                                return;
                             
                             })
 
@@ -430,7 +436,8 @@ processPost = function(request,response){
                             console.log(u.getName() + " " + u.getPassword());
                             db.editUser(u);
                             response.setHeader("Set-cookie", "user=" + JSON.stringify(u) +";Path=/;");
-                            response.end("http://"+host+":44444/Views/Show.html");
+                            response.writeHead(200);
+                            response.end();
                         });
 
                     });

@@ -75,7 +75,10 @@
                         restaurant.setName($('#Restaurant').val());
                         restaurant.setPassword($('#Password').val());
                         console.log(restaurant);
-                        com.doPost("/restaurant/create", JSON.stringify(restaurant),"Post");
+                        com.doPost("/restaurant/create", JSON.stringify(restaurant),"Post",function(ret){
+                            console.log("redirect");
+                            window.location = "http://localhost:44444/Views/Show.html";
+                        });
                     }
                 }
             </script>

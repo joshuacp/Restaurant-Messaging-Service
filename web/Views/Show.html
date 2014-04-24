@@ -75,7 +75,10 @@
                 var com = new Communication();
                 var message = new Message();
                 message.message = $('#NewMessage').val();
-                message.issuer = "josh";
+                var a = document.cookie.split("=")[1];
+
+                console.log(JSON.parse(a).name);
+                 message.issuer = JSON.parse(a).name;
                 if(message.message != ""){
                   console.log(message.message);
 
@@ -342,7 +345,11 @@
                 var com = new Communication();
                 var task = new Task();
                 task.details = $('#NewTask').val();
-                task.issuer = "josh";
+               
+                var a = document.cookie.split("=")[1];
+
+                console.log(JSON.parse(a).name);
+                 task.issuer = JSON.parse(a).name;
                 if(task.details != ""){
                   console.log(task.details);
 
