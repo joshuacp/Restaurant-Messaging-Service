@@ -37,7 +37,7 @@ PersonDAO.prototype.addUser = function(user,callback){
 
 PersonDAO.prototype.loginUser = function(user,callback) {
 	var name = name;
-	var this = d;
+	var d = this;
 	MongoClient.connect(format("mongodb://%s:%s/user", this.getHost(), this.getPort()), function(err,db){
 		
 		if (err) console.log(err);
