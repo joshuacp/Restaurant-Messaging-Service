@@ -79,7 +79,7 @@ PersonDAO.prototype.editUser = function(user){
 		if (err) console.log(err);
 		else{
 			console.log("UPDATING to: " + user);
-			db.collection('user').update({ "name": user.getName(), "password": user.getPassword()},user, function(err, records) {
+			db.collection('user').update({ "name": user.getName()},user, function(err, records) {
 				if (err || records == null) console.log (err); return;
 				//else
 					//console.log("Record added as "+records[0]._id);
