@@ -359,6 +359,8 @@ processPost = function(request,response){
                     var safeUser = new Person();
                     safeUser.name = returnValue.name;
                     safeUser.cookieID = returnValue.cookieID;
+                    if(returnValue.restaurantID != null)
+                        safeUser.restaurantID = returnValue.restaurantID;
                     response.setHeader("Set-cookie", "user=" + JSON.stringify(safeUser) +";Path=/;");
                     console.log('back');
                     response.writeHead(200);
