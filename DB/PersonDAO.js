@@ -66,6 +66,7 @@ PersonDAO.prototype.loginUser = function(user,callback) {
 						    	d.editUserCookieID(user,function(ret){
 						    		console.log("NOW RETURNING");
 						    		console.log(ret);
+						    		ret.password = res.password;
 						    		callback(ret);
 						    	});
 						    	
