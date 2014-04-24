@@ -33,7 +33,7 @@ MessageDAO.prototype.deleteMessage = function(message){
 	MongoClient.connect(format("mongodb://%s:%s/message", this.getHost(), this.getPort()), function(err,db){
 		if (err) console.log(err);
 		else{
-			db.collection('message').remove({ "restaurantID": message.getRestaurantID(), "details": message.getDetails()}, function(err, records) {
+			db.collection('message').remove({ "restaurantID": message.getRestaurantID(), "message": message.getMessage()}, function(err, records) {
 				if (err) sys.puts (err);
 				else
 					console.log("Deleted");
