@@ -34,6 +34,8 @@ http.createServer(function(req, res) {
     var uri = url.parse(req.url).pathname;
     console.log(req.method);
     if(req.method == "GET"){
+        if(uri == "Login.html")
+            uri == "/Views/Login.html";
         if(uri == "/Views/Login.html" || uri == "/Views/Create.html" 
             || uri == "/Scripts/Communication/Communication.js"|| uri == "/Model/Person.js" || 
             uri == "/Model/Restaurant.js" || isCSSData(uri) ){
